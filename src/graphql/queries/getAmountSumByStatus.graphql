@@ -1,0 +1,10 @@
+query GetTransactionSumByStatus($status: String) {
+  Transactions_aggregate(where: {status: {_eq: $status}}) {
+    aggregate {
+      count
+      sum {
+        amount
+      }
+    }
+  }
+}

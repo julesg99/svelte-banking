@@ -1,8 +1,11 @@
 import { env } from "$env/dynamic/public";
 import { print } from 'graphql';
-import { GetTransactionsDocument, type GetTransactionsQuery, type GetTransactionsQueryVariables,
-  InsertTransactionDocument, type InsertTransactionMutation, type InsertTransactionMutationVariables, type GetTransactionsWithAggregatesQueryVariables, GetTransactionsWithAggregatesDocument, type GetTransactionsWithAggregatesQuery
-   } from "./graphql";
+import { 
+  GetTransactionsDocument, type GetTransactionsQuery, type GetTransactionsQueryVariables,
+  InsertTransactionDocument, type InsertTransactionMutation, type InsertTransactionMutationVariables,
+  GetTransactionsWithAggregatesDocument, type GetTransactionsWithAggregatesQueryVariables, type GetTransactionsWithAggregatesQuery,
+  GetTransactionSumByStatusDocument, type GetTransactionSumByStatusQueryVariables, type GetTransactionSumByStatusQuery 
+} from "./graphql";
 
 const headers = {
   'Content-Type': 'application/json',
@@ -36,6 +39,18 @@ export async function graphqlGetTransactionsWithAggregates(variables: GetTransac
     })
   })
   return await request.json() as GraphQLResponse<GetTransactionsWithAggregatesQuery>
+}
+
+export async function graphqlGetTransactionSumByStatus(variables: GetTransactionSumByStatusQueryVariables) {
+  const request = await fetch(env.PUBLIC_HASURA_URL, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      query: print(GetTransactionSumByStatusDocument),
+      variables
+    })
+  })
+  return await request.json() as GraphQLResponse<GetTransactionSumByStatusQuery>
 }
 
 export async function graphqlInsertTransactions(variables: InsertTransactionMutationVariables) {

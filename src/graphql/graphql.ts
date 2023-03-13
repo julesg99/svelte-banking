@@ -565,12 +565,12 @@ export type InsertTransactionMutationVariables = Exact<{
 
 export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', id: number }> } | null };
 
-export type GetTransactionSumByCategoryQueryVariables = Exact<{
-  category?: InputMaybe<Scalars['String']>;
+export type GetTransactionSumByStatusQueryVariables = Exact<{
+  status?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetTransactionSumByCategoryQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null } };
+export type GetTransactionSumByStatusQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null } };
 
 export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -593,9 +593,9 @@ export const InsertTransactionDocument = gql`
   }
 }
     `;
-export const GetTransactionSumByCategoryDocument = gql`
-    query GetTransactionSumByCategory($category: String) {
-  Transactions_aggregate(where: {category: {_eq: $category}}) {
+export const GetTransactionSumByStatusDocument = gql`
+    query GetTransactionSumByStatus($status: String) {
+  Transactions_aggregate(where: {status: {_eq: $status}}) {
     aggregate {
       count
       sum {
@@ -649,8 +649,8 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     insertTransaction(variables: InsertTransactionMutationVariables, options?: C): Promise<InsertTransactionMutation> {
       return requester<InsertTransactionMutation, InsertTransactionMutationVariables>(InsertTransactionDocument, variables, options) as Promise<InsertTransactionMutation>;
     },
-    GetTransactionSumByCategory(variables?: GetTransactionSumByCategoryQueryVariables, options?: C): Promise<GetTransactionSumByCategoryQuery> {
-      return requester<GetTransactionSumByCategoryQuery, GetTransactionSumByCategoryQueryVariables>(GetTransactionSumByCategoryDocument, variables, options) as Promise<GetTransactionSumByCategoryQuery>;
+    GetTransactionSumByStatus(variables?: GetTransactionSumByStatusQueryVariables, options?: C): Promise<GetTransactionSumByStatusQuery> {
+      return requester<GetTransactionSumByStatusQuery, GetTransactionSumByStatusQueryVariables>(GetTransactionSumByStatusDocument, variables, options) as Promise<GetTransactionSumByStatusQuery>;
     },
     getTransactions(variables?: GetTransactionsQueryVariables, options?: C): Promise<GetTransactionsQuery> {
       return requester<GetTransactionsQuery, GetTransactionsQueryVariables>(GetTransactionsDocument, variables, options) as Promise<GetTransactionsQuery>;

@@ -1,15 +1,21 @@
 <script lang="ts">
   import Time from "svelte-time";
 	import { onMount } from "svelte";
-	import { graphqlGetTransactions, graphqlGetTransactionsWithAggregates } from "../graphql/graphqlApi";
+	import { graphqlGetTransactions, graphqlGetTransactionSumByStatus, graphqlGetTransactionsWithAggregates } from "../graphql/graphqlApi";
 	import { transactionStore } from "../store";
-	import type { GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
+	import type { GetTransactionSumByStatusQuery, GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
+	import { stringify } from "postcss";
 
-  let aggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]['aggregate'];
+  let aggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
+  $: sumByStatus = new Map<string, GetTransactionSumByStatusQuery["Transactions_aggregate"]["aggregate"]>()
   $: transactions = $transactionStore
   $: console.log('transactions @ base route', transactions)
 
-  onMount(() => loadTransactionsWithAggregates())
+  onMount(() => {
+    loadTransactionsWithAggregates()
+    getTransactionSumByStatus('completed')
+    getTransactionSumByStatus('pending')
+  })
 
   async function loadTransactionsWithAggregates() {
     const response = await graphqlGetTransactionsWithAggregates({})
@@ -21,9 +27,20 @@
       aggregates = response.data.Transactions_aggregate.aggregate
     }
   }
+
+  async function getTransactionSumByStatus(status: string) {
+    const response = await graphqlGetTransactionSumByStatus({status: status})
+    if (response.errors) {
+      response.errors.map((error: any) => console.log(error.message))
+      alert('Get Sum Failed.')
+    } else {
+      sumByStatus.set(status, response.data.Transactions_aggregate.aggregate)
+      sumByStatus = sumByStatus
+    }
+  }
 </script>
 
-<div class="flex justify-center w-[98%] space-x-20 outline outline-1 outline-gray-300 m-3 p-3 rounded text-center">
+<div class="flex justify-center w-[98%] space-x-20 outline outline-1 outline-gray-300 m-3 p-3 rounded text-center shadow-md">
   <div>
     <p># Transactions:</p>
     <p>{aggregates?.count}</p>
@@ -40,16 +57,18 @@
 
   <div>
     <p>Total for Complete: </p>
+    <p>{sumByStatus?.get('completed')?.sum?.amount}</p>
   </div>
 
   <divider class="border border-1 border-gray-300"/>
 
   <div>
     <p>Total for Pending: </p>
+    <p>{sumByStatus?.get('pending')?.sum?.amount}</p>
   </div>
 </div>
 
-<table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded">
+<table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded shadow-lg">
   <tr class="w-[98%] outline outline-1 outline-gray-300 rounded p-2 text-center">
     <td class="w-6">Id</td>
     <td class="w-16">Created</td>
