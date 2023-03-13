@@ -1,16 +1,7 @@
 import { writable } from "svelte/store";
+import type { TransactionsFragment } from "./graphql/graphql";
 
-export interface TransactionType {
-  id: number,
-  createdAt: Date,
-  updatedAt: Date,
-  description: String,
-  amount: number,
-  status: String,
-  category: String,
-  transactionDate: Date,
-  postDate?: Date
-}
+export type TransactionType = TransactionsFragment
 
 const emptyTransactions : TransactionType[] = []
 

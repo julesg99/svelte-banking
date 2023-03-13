@@ -582,7 +582,21 @@ export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]:
 
 export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any }> };
 
+export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any };
 
+export const TransactionsFragmentDoc = gql`
+    fragment transactions on Transactions {
+  amount
+  category
+  createdAt
+  description
+  id
+  postDate
+  status
+  transactionDate
+  updatedAt
+}
+    `;
 export const InsertTransactionDocument = gql`
     mutation insertTransaction($object: [Transactions_insert_input!]!) {
   insert_Transactions(objects: $object) {
@@ -608,18 +622,10 @@ export const GetTransactionSumByStatusDocument = gql`
 export const GetTransactionsDocument = gql`
     query getTransactions {
   Transactions {
-    amount
-    category
-    createdAt
-    description
-    id
-    postDate
-    status
-    transactionDate
-    updatedAt
+    ...transactions
   }
 }
-    `;
+    ${TransactionsFragmentDoc}`;
 export const GetTransactionsWithAggregatesDocument = gql`
     query getTransactionsWithAggregates {
   Transactions_aggregate {
@@ -631,18 +637,10 @@ export const GetTransactionsWithAggregatesDocument = gql`
     }
   }
   Transactions {
-    amount
-    category
-    createdAt
-    description
-    id
-    postDate
-    status
-    transactionDate
-    updatedAt
+    ...transactions
   }
 }
-    `;
+    ${TransactionsFragmentDoc}`;
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
 export function getSdk<C, E>(requester: Requester<C, E>) {
   return {

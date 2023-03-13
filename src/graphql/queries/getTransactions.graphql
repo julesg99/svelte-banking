@@ -1,13 +1,5 @@
 query getTransactions {
   Transactions {
-    amount
-    category
-    createdAt
-    description
-    id
-    postDate
-    status
-    transactionDate
-    updatedAt
+    ...transactions
   }
 }
