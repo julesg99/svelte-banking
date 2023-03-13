@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
 	import { faker } from '@faker-js/faker';
+	import { graphqlInsertTransactions } from '../../graphql/graphqlApi';
 
 	function generateTransaction() {
 		const transactionDate = faker.date.between('2023-02-13', '2023-04-13');
@@ -34,39 +35,13 @@
 	let disabled = false;
 	async function generate() {
 		disabled = true;
-		const body = JSON.stringify({
-			query:
-				'mutation insertTransactions($objects: [transaction_insert_input!]!){\n  insert_transaction(objects: $objects){\n    affected_rows\n  }\n}',
-			variables: {
-				objects: [...Array(10).keys()].map(generateTransaction)
-			}
-		});
-		const response = await fetch(env.PUBLIC_HASURA_URL, {
-			body: body,
-			cache: 'default',
-			credentials: 'omit',
-			headers: {
-				Accept: '*/*',
-				'Accept-Language': 'en-US,en;q=0.9',
-				'Content-Type': 'application/json',
-				'User-Agent':
-					'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.3 Safari/605.1.15',
-				'x-hasura-admin-secret': env.PUBLIC_HASURA_ADMIN_SECRET
-			},
-			method: 'POST',
-			mode: 'cors',
-			redirect: 'follow',
-			referrer: 'https://cloud.hasura.io/',
-			referrerPolicy: 'strict-origin'
-		});
+    const response = await graphqlInsertTransactions({object: [...Array(10).keys()].map(generateTransaction)})
 
-		statusCode = response.status.toString();
-		const json = await response.json();
-		if (json.errors) {
+		if (response.errors) {
 			result = 'GraphQL Errors :(. Please see console';
-			console.error('Genertion error - open me!', json.errors);
+			console.error('Genertion error - open me!', response.errors);
 		} else {
-			result = JSON.stringify(json);
+			result = JSON.stringify(response.data);
 		}
 		disabled = false;
 	}

@@ -1,0 +1,8 @@
+mutation insertTransaction($object: [Transactions_insert_input!]!) {
+  insert_Transactions(objects: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
