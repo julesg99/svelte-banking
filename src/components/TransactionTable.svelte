@@ -20,10 +20,9 @@
     <p>Total for All: </p>
     <p>{aggregates?.sum?.amount}</p>
   </div>
-
   <divider class="border border-1 border-gray-300"/>
 
-  {#each [...sumByStatus.entries()] as status}
+  {#each [...sumByStatus] as status}
     <div>
       <p># Completed:</p>
       <p>{status[1]?.count}</p>
@@ -39,9 +38,6 @@
 
 <table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded shadow-lg">
   <tr class="w-[98%] outline outline-1 outline-gray-300 rounded p-2 text-center">
-    <td class="w-8 pl-2">Id</td>
-    <td class="w-28">Created</td>
-    <td class="w-28">Updated</td>
     <td class="">Status</td>
     <td class="">Amount</td>
     <td class="">Category</td>
@@ -52,9 +48,6 @@
   </tr>
   {#each transactions as entry (entry.id)}
     <tr class='text-center border-t border-t-1'>
-      <td class="pl-2">{entry.id}</td>
-      <td><Time timestamp={entry.createdAt} format='h:mm A on MMM D, YYYY'/></td>
-      <td><Time timestamp={entry.updatedAt} format='h:mm A on MMM D, YYYY'/></td>
       <td>{entry.status}</td>
       <td>{entry.amount}</td>
       <td>{entry.category}</td>
