@@ -28,7 +28,7 @@
 		<div
 			class="h-[4rem] w-full bg-gray-50 flex justify-between items-center align-middle border-b-2 border-gray-200"
 		>
-			<div class="ml-2 font-bold text-green-500  text-xl">Transactions</div>
+			<div class="ml-5 font-bold text-green-500  text-xl">Transactions</div>
 		</div>
 
 		<slot />
