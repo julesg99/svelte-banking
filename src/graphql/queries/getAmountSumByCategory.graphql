@@ -1,0 +1,10 @@
+query GetTransactionSumByCategory($category: String) {
+  Transactions_aggregate(where: {category: {_eq: $category}}) {
+    aggregate {
+      count
+      sum {
+        amount
+      }
+    }
+  }
+}

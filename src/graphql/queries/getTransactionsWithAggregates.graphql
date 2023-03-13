@@ -1,0 +1,21 @@
+query getTransactionsWithAggregates {
+  Transactions_aggregate {
+    aggregate {
+      sum {
+        amount
+      }
+      count
+    }
+  }
+  Transactions {
+    amount
+    category
+    createdAt
+    description
+    id
+    postDate
+    status
+    transactionDate
+    updatedAt
+  }
+}

@@ -565,10 +565,22 @@ export type InsertTransactionMutationVariables = Exact<{
 
 export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', id: number }> } | null };
 
+export type GetTransactionSumByCategoryQueryVariables = Exact<{
+  category?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetTransactionSumByCategoryQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null } };
+
 export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any }> };
+
+export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any }> };
 
 
 export const InsertTransactionDocument = gql`
@@ -577,6 +589,18 @@ export const InsertTransactionDocument = gql`
     affected_rows
     returning {
       id
+    }
+  }
+}
+    `;
+export const GetTransactionSumByCategoryDocument = gql`
+    query GetTransactionSumByCategory($category: String) {
+  Transactions_aggregate(where: {category: {_eq: $category}}) {
+    aggregate {
+      count
+      sum {
+        amount
+      }
     }
   }
 }
@@ -596,14 +620,43 @@ export const GetTransactionsDocument = gql`
   }
 }
     `;
+export const GetTransactionsWithAggregatesDocument = gql`
+    query getTransactionsWithAggregates {
+  Transactions_aggregate {
+    aggregate {
+      sum {
+        amount
+      }
+      count
+    }
+  }
+  Transactions {
+    amount
+    category
+    createdAt
+    description
+    id
+    postDate
+    status
+    transactionDate
+    updatedAt
+  }
+}
+    `;
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
 export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
     insertTransaction(variables: InsertTransactionMutationVariables, options?: C): Promise<InsertTransactionMutation> {
       return requester<InsertTransactionMutation, InsertTransactionMutationVariables>(InsertTransactionDocument, variables, options) as Promise<InsertTransactionMutation>;
     },
+    GetTransactionSumByCategory(variables?: GetTransactionSumByCategoryQueryVariables, options?: C): Promise<GetTransactionSumByCategoryQuery> {
+      return requester<GetTransactionSumByCategoryQuery, GetTransactionSumByCategoryQueryVariables>(GetTransactionSumByCategoryDocument, variables, options) as Promise<GetTransactionSumByCategoryQuery>;
+    },
     getTransactions(variables?: GetTransactionsQueryVariables, options?: C): Promise<GetTransactionsQuery> {
       return requester<GetTransactionsQuery, GetTransactionsQueryVariables>(GetTransactionsDocument, variables, options) as Promise<GetTransactionsQuery>;
+    },
+    getTransactionsWithAggregates(variables?: GetTransactionsWithAggregatesQueryVariables, options?: C): Promise<GetTransactionsWithAggregatesQuery> {
+      return requester<GetTransactionsWithAggregatesQuery, GetTransactionsWithAggregatesQueryVariables>(GetTransactionsWithAggregatesDocument, variables, options) as Promise<GetTransactionsWithAggregatesQuery>;
     }
   };
 }
