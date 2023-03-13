@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex">
-	<div class="w-[20rem] p-2 pt-5 h-[100vh] bg-gray-100 border-r-2 border-gray-200">
+	<div class="w-[20rem] p-2 pt-5 min-h-[100vh] bg-gray-100 border-r-2 border-gray-200">
 		<div class="text-blue-500 flex justify-center">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"

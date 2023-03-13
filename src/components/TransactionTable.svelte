@@ -39,19 +39,20 @@
 
 <table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded shadow-lg">
   <tr class="w-[98%] outline outline-1 outline-gray-300 rounded p-2 text-center">
-    <td class="w-6">Id</td>
-    <td class="w-16">Created</td>
-    <td class="w-16">Updated</td>
-    <td class="w-20">Status</td>
-    <td class="w-20">Amount</td>
-    <td class="w-20">Category</td>
-    <td class="w-40">Description</td>
-    <td class="w-20">Transaction Date</td>
-    <td class="w-20">Post Date</td>
+    <td class="w-8 pl-2">Id</td>
+    <td class="w-28">Created</td>
+    <td class="w-28">Updated</td>
+    <td class="">Status</td>
+    <td class="">Amount</td>
+    <td class="">Category</td>
+    <td class="w-48">Description</td>
+    <td class="">Transaction Date</td>
+    <td class="">Post Date</td>
+    <td class="">Notes</td>
   </tr>
   {#each transactions as entry (entry.id)}
     <tr class='text-center border-t border-t-1'>
-      <td class="">{entry.id}</td>
+      <td class="pl-2">{entry.id}</td>
       <td><Time timestamp={entry.createdAt} format='h:mm A on MMM D, YYYY'/></td>
       <td><Time timestamp={entry.updatedAt} format='h:mm A on MMM D, YYYY'/></td>
       <td>{entry.status}</td>
