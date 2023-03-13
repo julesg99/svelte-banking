@@ -17,7 +17,7 @@
     <p>{aggregates?.count}</p>
   </div>
   <div>
-    <p>Total for All: </p>
+    <p>Total For All: </p>
     <p>{aggregates?.sum?.amount}</p>
   </div>
   <divider class="border border-1 border-gray-300"/>
@@ -28,7 +28,7 @@
       <p>{status[1]?.count}</p>
     </div>
     <div>
-      <p>Total for {status[0]}</p>
+      <p class="capitalize">Total for {status[0]}:</p>
       <p>{status[1]?.sum?.amount}</p>
     </div>
     <divider class="border border-1 border-gray-300"/>
@@ -48,9 +48,9 @@
   </tr>
   {#each transactions as entry (entry.id)}
     <tr class='text-center border-t border-t-1'>
-      <td>{entry.status}</td>
+      <td class="capitalize">{entry.status}</td>
       <td>{entry.amount}</td>
-      <td>{entry.category}</td>
+      <td class="capitalize">{entry.category}</td>
       <td>{entry.description}</td>
       <td><Time timestamp={entry.transactionDate}/></td>
       {#if entry.postDate}
