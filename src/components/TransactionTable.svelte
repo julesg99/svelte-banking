@@ -55,6 +55,13 @@
       <td><Time timestamp={entry.transactionDate}/></td>
       {#if entry.postDate}
         <td><Time timestamp={entry.postDate}/></td>
+      {:else}
+        <td></td>
+      {/if}
+      {#if entry.notes}
+        <td>{entry.notes}</td>
+      {:else}
+        <td></td>
       {/if}
     </tr>
   {/each}

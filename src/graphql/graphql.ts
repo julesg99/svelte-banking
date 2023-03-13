@@ -71,6 +71,7 @@ export type Transactions = {
   createdAt: Scalars['timestamptz'];
   description: Scalars['String'];
   id: Scalars['Int'];
+  notes?: Maybe<Scalars['String']>;
   postDate?: Maybe<Scalars['date']>;
   status: Scalars['String'];
   transactionDate: Scalars['date'];
@@ -124,6 +125,7 @@ export type Transactions_Bool_Exp = {
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  notes?: InputMaybe<String_Comparison_Exp>;
   postDate?: InputMaybe<Date_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   transactionDate?: InputMaybe<Date_Comparison_Exp>;
@@ -149,6 +151,7 @@ export type Transactions_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  notes?: InputMaybe<Scalars['String']>;
   postDate?: InputMaybe<Scalars['date']>;
   status?: InputMaybe<Scalars['String']>;
   transactionDate?: InputMaybe<Scalars['date']>;
@@ -163,6 +166,7 @@ export type Transactions_Max_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  notes?: Maybe<Scalars['String']>;
   postDate?: Maybe<Scalars['date']>;
   status?: Maybe<Scalars['String']>;
   transactionDate?: Maybe<Scalars['date']>;
@@ -177,6 +181,7 @@ export type Transactions_Min_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  notes?: Maybe<Scalars['String']>;
   postDate?: Maybe<Scalars['date']>;
   status?: Maybe<Scalars['String']>;
   transactionDate?: Maybe<Scalars['date']>;
@@ -206,6 +211,7 @@ export type Transactions_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  notes?: InputMaybe<Order_By>;
   postDate?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   transactionDate?: InputMaybe<Order_By>;
@@ -230,6 +236,8 @@ export enum Transactions_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Notes = 'notes',
+  /** column name */
   PostDate = 'postDate',
   /** column name */
   Status = 'status',
@@ -246,6 +254,7 @@ export type Transactions_Set_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  notes?: InputMaybe<Scalars['String']>;
   postDate?: InputMaybe<Scalars['date']>;
   status?: InputMaybe<Scalars['String']>;
   transactionDate?: InputMaybe<Scalars['date']>;
@@ -288,6 +297,7 @@ export type Transactions_Stream_Cursor_Value_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  notes?: InputMaybe<Scalars['String']>;
   postDate?: InputMaybe<Scalars['date']>;
   status?: InputMaybe<Scalars['String']>;
   transactionDate?: InputMaybe<Scalars['date']>;
@@ -313,6 +323,8 @@ export enum Transactions_Update_Column {
   Description = 'description',
   /** column name */
   Id = 'id',
+  /** column name */
+  Notes = 'notes',
   /** column name */
   PostDate = 'postDate',
   /** column name */
@@ -575,14 +587,14 @@ export type GetTransactionSumByStatusQuery = { __typename?: 'query_root', Transa
 export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any }> };
+export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null }> };
 
 export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any }> };
+export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null }> };
 
-export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any };
+export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null };
 
 export const TransactionsFragmentDoc = gql`
     fragment transactions on Transactions {
@@ -595,6 +607,7 @@ export const TransactionsFragmentDoc = gql`
   status
   transactionDate
   updatedAt
+  notes
 }
     `;
 export const InsertTransactionDocument = gql`
@@ -636,7 +649,7 @@ export const GetTransactionsWithAggregatesDocument = gql`
       count
     }
   }
-  Transactions {
+  Transactions(order_by: {transactionDate: asc}) {
     ...transactions
   }
 }

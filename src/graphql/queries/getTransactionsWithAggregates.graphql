@@ -7,7 +7,7 @@ query getTransactionsWithAggregates {
       count
     }
   }
-  Transactions {
+  Transactions(order_by: {transactionDate: asc}) {
     ...transactions
   }
 }
