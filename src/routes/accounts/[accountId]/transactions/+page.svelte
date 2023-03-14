@@ -1,10 +1,16 @@
 <script lang='ts'>
 	import { page } from "$app/stores";
+	import { onMount } from "svelte";
+	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
 	import TransactionTable from "../../../../components/TransactionTable.svelte";
-	import type { TransactionsFragment } from "../../../../graphql/graphql";
+	import type { GetTransactionByAccountWithAggregatesQuery, TransactionsFragment } from "../../../../graphql/graphql";
 	import { graphqlGetTransactionsByAccount } from "../../../../graphql/graphqlApi";
 
-  let transactions: TransactionsFragment[]
+  onMount(() => getTransactionsByAccount(Number($page.params.accountId)))
+
+  let accountAggregates: GetTransactionByAccountWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
+  let transactions: TransactionsFragment[] = []
+
   async function getTransactionsByAccount(accountId: number) {
     const response = await graphqlGetTransactionsByAccount({object: accountId})
     if (response.errors) {
@@ -12,8 +18,10 @@
       alert('Account transactions failed to load.')
     } else {
       transactions = response.data.Transactions
+      accountAggregates = response.data.Transactions_aggregate.aggregate
     }
   }
 </script>
 
-<!-- <TransactionTable {transactions} />/ -->
+<AccountAggregatesHeader aggregates={accountAggregates}/>
+<TransactionTable {transactions} />

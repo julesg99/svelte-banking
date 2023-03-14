@@ -1,16 +1,7 @@
 <script lang='ts'>
   import type { AccountsFragment } from "../graphql/graphql";
-	import { accountStore } from "../store";
 
   export let accounts: AccountsFragment[]
-  // $: accounts = $accountStore
-  // $: console.log(accounts)
-
-  let selectedAccount: AccountsFragment
-
-  function handleAccountSelection(acct: AccountsFragment) {
-    selectedAccount = acct
-  }
 
 </script>
 

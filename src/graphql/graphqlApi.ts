@@ -6,7 +6,7 @@ import {
   GetTransactionsWithAggregatesDocument, type GetTransactionsWithAggregatesQueryVariables, type GetTransactionsWithAggregatesQuery,
   GetTransactionSumByStatusDocument, type GetTransactionSumByStatusQueryVariables, type GetTransactionSumByStatusQuery,
   GetAccountsDocument, type GetAccountsQueryVariables, type GetAccountsQuery,
-  GetTransactionByAccountDocument, type GetTransactionByAccountQueryVariables, type GetTransactionByAccountQuery 
+  GetTransactionByAccountWithAggregatesDocument, type GetTransactionByAccountWithAggregatesQueryVariables, type GetTransactionByAccountWithAggregatesQuery 
 } from "./graphql";
 
 const headers = {
@@ -56,16 +56,16 @@ export async function graphqlGetTransactionSumByStatus(variables: GetTransaction
   return await request.json() as GraphQLResponse<GetTransactionSumByStatusQuery>
 }
 
-export async function graphqlGetTransactionsByAccount(variables: GetTransactionByAccountQueryVariables) {
+export async function graphqlGetTransactionsByAccount(variables: GetTransactionByAccountWithAggregatesQueryVariables) {
   const request = await fetch(env.PUBLIC_HASURA_URL, {
     method: 'POST',
     headers,
     body: JSON.stringify({
-      query: print(GetTransactionByAccountDocument),
+      query: print(GetTransactionByAccountWithAggregatesDocument),
       variables
     })
   })
-  return await request.json() as GraphQLResponse<GetTransactionByAccountQuery>
+  return await request.json() as GraphQLResponse<GetTransactionByAccountWithAggregatesQuery>
 }
 
 export async function graphqlGetAccounts(variables: GetAccountsQueryVariables) {

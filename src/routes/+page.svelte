@@ -4,6 +4,7 @@
 	import { transactionStore } from "../store";
 	import type { GetTransactionSumByStatusQuery, GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
 	import TransactionTable from "../components/TransactionTable.svelte";
+	import GeneralAggregatesHeader from "../components/GeneralAggregatesHeader.svelte";
 
   let transactionAggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetTransactionSumByStatusQuery["Transactions_aggregate"]["aggregate"]>()
@@ -39,4 +40,5 @@
   }
 </script>
 
-<TransactionTable aggregates={transactionAggregates} {sumByStatus} {transactions} />
+<GeneralAggregatesHeader aggregates={transactionAggregates} {sumByStatus} />
+<TransactionTable {transactions} />
