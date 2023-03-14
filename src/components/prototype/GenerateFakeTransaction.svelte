@@ -32,22 +32,25 @@
 			category,
 			status,
 			transactionDate,
-			postDate
+			postDate,
+      accountName
 		};
 	}
 
 	let result = '';
 	let statusCode = '';
+  let accountName: string;
 	let disabled = false;
 	async function generate() {
 		disabled = true;
     const response = await graphqlInsertTransactions({object: [...Array(10).keys()].map(generateTransaction)})
-    const insertedTrans = response.data.insert_Transactions?.returning
-    console.log(insertedTrans)
 		if (response.errors) {
+      statusCode = 'Error'
 			result = 'GraphQL Errors :(. Please see console';
 			console.error('Genertion error - open me!', response.errors);
-		} else if (insertedTrans) {
+		} else if (response.data.insert_Transactions?.returning) {
+      let insertedTrans = response.data.insert_Transactions?.returning
+      statusCode = 'OK'
 			result = JSON.stringify(insertedTrans.map((transaction) => transaction.id));
       transactions = [...transactions, ...insertedTrans]
 		}
@@ -56,16 +59,17 @@
 </script>
 
 <div class="m-1 p-2 rounded-lg border border-cyan-500">
-	<button
-		class="rounded-lg border border-blue-600 bg-blue-500 p-2 m-1 text-white {disabled
-			? 'opacity-50 cursor-not-allowed'
-			: ''}"
-		on:click={generate}
-		{disabled}>Generate 10 Transactions</button
-	>
+  <input class="h-8 m-1 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Account Name" bind:value={accountName} />
+  <button
+    class="rounded-lg border border-blue-600 bg-blue-500 p-2 m-1 text-white {disabled
+      ? 'opacity-50 cursor-not-allowed'
+      : ''}"
+    on:click={generate}
+    {disabled}>Generate 10 Transactions</button
+  >
 	<div>
 		<div>Response</div>
-		<div>Status Code: {statusCode}</div>
+		<div>Status: {statusCode}</div>
 		<div>{result}</div>
 	</div>
 </div>

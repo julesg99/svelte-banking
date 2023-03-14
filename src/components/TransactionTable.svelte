@@ -38,6 +38,7 @@
 
 <table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded shadow-lg">
   <tr class="w-[98%] outline outline-1 outline-gray-300 rounded p-2 text-center">
+    <td class="">Account</td>
     <td class="">Status</td>
     <td class="">Amount</td>
     <td class="">Category</td>
@@ -48,6 +49,7 @@
   </tr>
   {#each transactions as entry (entry.id)}
     <tr class='text-center border-t border-t-1'>
+      <td>{entry.accountName}</td>
       <td class="capitalize">{entry.status}</td>
       <td>{entry.amount}</td>
       <td class="capitalize">{entry.category}</td>

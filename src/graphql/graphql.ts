@@ -17,6 +17,205 @@ export type Scalars = {
   timestamptz: any;
 };
 
+/** columns and relationships of "Accounts" */
+export type Accounts = {
+  __typename?: 'Accounts';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "Accounts" */
+export type Accounts_Aggregate = {
+  __typename?: 'Accounts_aggregate';
+  aggregate?: Maybe<Accounts_Aggregate_Fields>;
+  nodes: Array<Accounts>;
+};
+
+/** aggregate fields of "Accounts" */
+export type Accounts_Aggregate_Fields = {
+  __typename?: 'Accounts_aggregate_fields';
+  avg?: Maybe<Accounts_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Accounts_Max_Fields>;
+  min?: Maybe<Accounts_Min_Fields>;
+  stddev?: Maybe<Accounts_Stddev_Fields>;
+  stddev_pop?: Maybe<Accounts_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Accounts_Stddev_Samp_Fields>;
+  sum?: Maybe<Accounts_Sum_Fields>;
+  var_pop?: Maybe<Accounts_Var_Pop_Fields>;
+  var_samp?: Maybe<Accounts_Var_Samp_Fields>;
+  variance?: Maybe<Accounts_Variance_Fields>;
+};
+
+
+/** aggregate fields of "Accounts" */
+export type Accounts_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Accounts_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Accounts_Avg_Fields = {
+  __typename?: 'Accounts_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "Accounts". All fields are combined with a logical 'AND'. */
+export type Accounts_Bool_Exp = {
+  _and?: InputMaybe<Array<Accounts_Bool_Exp>>;
+  _not?: InputMaybe<Accounts_Bool_Exp>;
+  _or?: InputMaybe<Array<Accounts_Bool_Exp>>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "Accounts" */
+export enum Accounts_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  AccountsNameKey = 'Accounts_name_key',
+  /** unique or primary key constraint on columns "id" */
+  AccountsPkey = 'Accounts_pkey'
+}
+
+/** input type for incrementing numeric columns in table "Accounts" */
+export type Accounts_Inc_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "Accounts" */
+export type Accounts_Insert_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Accounts_Max_Fields = {
+  __typename?: 'Accounts_max_fields';
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Accounts_Min_Fields = {
+  __typename?: 'Accounts_min_fields';
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "Accounts" */
+export type Accounts_Mutation_Response = {
+  __typename?: 'Accounts_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Accounts>;
+};
+
+/** on_conflict condition type for table "Accounts" */
+export type Accounts_On_Conflict = {
+  constraint: Accounts_Constraint;
+  update_columns?: Array<Accounts_Update_Column>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "Accounts". */
+export type Accounts_Order_By = {
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: Accounts */
+export type Accounts_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "Accounts" */
+export enum Accounts_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "Accounts" */
+export type Accounts_Set_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Accounts_Stddev_Fields = {
+  __typename?: 'Accounts_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Accounts_Stddev_Pop_Fields = {
+  __typename?: 'Accounts_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Accounts_Stddev_Samp_Fields = {
+  __typename?: 'Accounts_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "Accounts" */
+export type Accounts_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Accounts_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Accounts_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate sum on columns */
+export type Accounts_Sum_Fields = {
+  __typename?: 'Accounts_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "Accounts" */
+export enum Accounts_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+export type Accounts_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Accounts_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Accounts_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Accounts_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Accounts_Var_Pop_Fields = {
+  __typename?: 'Accounts_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Accounts_Var_Samp_Fields = {
+  __typename?: 'Accounts_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Accounts_Variance_Fields = {
+  __typename?: 'Accounts_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Int']>;
@@ -66,6 +265,7 @@ export type String_Comparison_Exp = {
 /** Account transaction data */
 export type Transactions = {
   __typename?: 'Transactions';
+  accountName: Scalars['String'];
   amount: Scalars['money'];
   category: Scalars['String'];
   createdAt: Scalars['timestamptz'];
@@ -120,6 +320,7 @@ export type Transactions_Bool_Exp = {
   _and?: InputMaybe<Array<Transactions_Bool_Exp>>;
   _not?: InputMaybe<Transactions_Bool_Exp>;
   _or?: InputMaybe<Array<Transactions_Bool_Exp>>;
+  accountName?: InputMaybe<String_Comparison_Exp>;
   amount?: InputMaybe<Money_Comparison_Exp>;
   category?: InputMaybe<String_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -146,6 +347,7 @@ export type Transactions_Inc_Input = {
 
 /** input type for inserting data into table "Transactions" */
 export type Transactions_Insert_Input = {
+  accountName?: InputMaybe<Scalars['String']>;
   amount?: InputMaybe<Scalars['money']>;
   category?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -161,6 +363,7 @@ export type Transactions_Insert_Input = {
 /** aggregate max on columns */
 export type Transactions_Max_Fields = {
   __typename?: 'Transactions_max_fields';
+  accountName?: Maybe<Scalars['String']>;
   amount?: Maybe<Scalars['money']>;
   category?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
@@ -176,6 +379,7 @@ export type Transactions_Max_Fields = {
 /** aggregate min on columns */
 export type Transactions_Min_Fields = {
   __typename?: 'Transactions_min_fields';
+  accountName?: Maybe<Scalars['String']>;
   amount?: Maybe<Scalars['money']>;
   category?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
@@ -206,6 +410,7 @@ export type Transactions_On_Conflict = {
 
 /** Ordering options when selecting data from "Transactions". */
 export type Transactions_Order_By = {
+  accountName?: InputMaybe<Order_By>;
   amount?: InputMaybe<Order_By>;
   category?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
@@ -225,6 +430,8 @@ export type Transactions_Pk_Columns_Input = {
 
 /** select columns of table "Transactions" */
 export enum Transactions_Select_Column {
+  /** column name */
+  AccountName = 'accountName',
   /** column name */
   Amount = 'amount',
   /** column name */
@@ -249,6 +456,7 @@ export enum Transactions_Select_Column {
 
 /** input type for updating data in table "Transactions" */
 export type Transactions_Set_Input = {
+  accountName?: InputMaybe<Scalars['String']>;
   amount?: InputMaybe<Scalars['money']>;
   category?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -292,6 +500,7 @@ export type Transactions_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Transactions_Stream_Cursor_Value_Input = {
+  accountName?: InputMaybe<Scalars['String']>;
   amount?: InputMaybe<Scalars['money']>;
   category?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -313,6 +522,8 @@ export type Transactions_Sum_Fields = {
 
 /** update columns of table "Transactions" */
 export enum Transactions_Update_Column {
+  /** column name */
+  AccountName = 'accountName',
   /** column name */
   Amount = 'amount',
   /** column name */
@@ -402,20 +613,46 @@ export type Money_Comparison_Exp = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete data from the table: "Accounts" */
+  delete_Accounts?: Maybe<Accounts_Mutation_Response>;
+  /** delete single row from the table: "Accounts" */
+  delete_Accounts_by_pk?: Maybe<Accounts>;
   /** delete data from the table: "Transactions" */
   delete_Transactions?: Maybe<Transactions_Mutation_Response>;
   /** delete single row from the table: "Transactions" */
   delete_Transactions_by_pk?: Maybe<Transactions>;
+  /** insert data into the table: "Accounts" */
+  insert_Accounts?: Maybe<Accounts_Mutation_Response>;
+  /** insert a single row into the table: "Accounts" */
+  insert_Accounts_one?: Maybe<Accounts>;
   /** insert data into the table: "Transactions" */
   insert_Transactions?: Maybe<Transactions_Mutation_Response>;
   /** insert a single row into the table: "Transactions" */
   insert_Transactions_one?: Maybe<Transactions>;
+  /** update data of the table: "Accounts" */
+  update_Accounts?: Maybe<Accounts_Mutation_Response>;
+  /** update single row of the table: "Accounts" */
+  update_Accounts_by_pk?: Maybe<Accounts>;
+  /** update multiples rows of table: "Accounts" */
+  update_Accounts_many?: Maybe<Array<Maybe<Accounts_Mutation_Response>>>;
   /** update data of the table: "Transactions" */
   update_Transactions?: Maybe<Transactions_Mutation_Response>;
   /** update single row of the table: "Transactions" */
   update_Transactions_by_pk?: Maybe<Transactions>;
   /** update multiples rows of table: "Transactions" */
   update_Transactions_many?: Maybe<Array<Maybe<Transactions_Mutation_Response>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_AccountsArgs = {
+  where: Accounts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Accounts_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -432,6 +669,20 @@ export type Mutation_RootDelete_Transactions_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_AccountsArgs = {
+  objects: Array<Accounts_Insert_Input>;
+  on_conflict?: InputMaybe<Accounts_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Accounts_OneArgs = {
+  object: Accounts_Insert_Input;
+  on_conflict?: InputMaybe<Accounts_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_TransactionsArgs = {
   objects: Array<Transactions_Insert_Input>;
   on_conflict?: InputMaybe<Transactions_On_Conflict>;
@@ -442,6 +693,28 @@ export type Mutation_RootInsert_TransactionsArgs = {
 export type Mutation_RootInsert_Transactions_OneArgs = {
   object: Transactions_Insert_Input;
   on_conflict?: InputMaybe<Transactions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_AccountsArgs = {
+  _inc?: InputMaybe<Accounts_Inc_Input>;
+  _set?: InputMaybe<Accounts_Set_Input>;
+  where: Accounts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Accounts_By_PkArgs = {
+  _inc?: InputMaybe<Accounts_Inc_Input>;
+  _set?: InputMaybe<Accounts_Set_Input>;
+  pk_columns: Accounts_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Accounts_ManyArgs = {
+  updates: Array<Accounts_Updates>;
 };
 
 
@@ -484,12 +757,41 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "Accounts" */
+  Accounts: Array<Accounts>;
+  /** fetch aggregated fields from the table: "Accounts" */
+  Accounts_aggregate: Accounts_Aggregate;
+  /** fetch data from the table: "Accounts" using primary key columns */
+  Accounts_by_pk?: Maybe<Accounts>;
   /** fetch data from the table: "Transactions" */
   Transactions: Array<Transactions>;
   /** fetch aggregated fields from the table: "Transactions" */
   Transactions_aggregate: Transactions_Aggregate;
   /** fetch data from the table: "Transactions" using primary key columns */
   Transactions_by_pk?: Maybe<Transactions>;
+};
+
+
+export type Query_RootAccountsArgs = {
+  distinct_on?: InputMaybe<Array<Accounts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Accounts_Order_By>>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
+};
+
+
+export type Query_RootAccounts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Accounts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Accounts_Order_By>>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
+};
+
+
+export type Query_RootAccounts_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -517,6 +819,14 @@ export type Query_RootTransactions_By_PkArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "Accounts" */
+  Accounts: Array<Accounts>;
+  /** fetch aggregated fields from the table: "Accounts" */
+  Accounts_aggregate: Accounts_Aggregate;
+  /** fetch data from the table: "Accounts" using primary key columns */
+  Accounts_by_pk?: Maybe<Accounts>;
+  /** fetch data from the table in a streaming manner: "Accounts" */
+  Accounts_stream: Array<Accounts>;
   /** fetch data from the table: "Transactions" */
   Transactions: Array<Transactions>;
   /** fetch aggregated fields from the table: "Transactions" */
@@ -525,6 +835,36 @@ export type Subscription_Root = {
   Transactions_by_pk?: Maybe<Transactions>;
   /** fetch data from the table in a streaming manner: "Transactions" */
   Transactions_stream: Array<Transactions>;
+};
+
+
+export type Subscription_RootAccountsArgs = {
+  distinct_on?: InputMaybe<Array<Accounts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Accounts_Order_By>>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
+};
+
+
+export type Subscription_RootAccounts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Accounts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Accounts_Order_By>>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
+};
+
+
+export type Subscription_RootAccounts_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootAccounts_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Accounts_Stream_Cursor_Input>>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
 };
 
 
@@ -575,7 +915,7 @@ export type InsertTransactionMutationVariables = Exact<{
 }>;
 
 
-export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null }> } | null };
+export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string }> } | null };
 
 export type GetTransactionSumByStatusQueryVariables = Exact<{
   status?: InputMaybe<Scalars['String']>;
@@ -587,14 +927,14 @@ export type GetTransactionSumByStatusQuery = { __typename?: 'query_root', Transa
 export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null }> };
+export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string }> };
 
 export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null }> };
+export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string }> };
 
-export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null };
+export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string };
 
 export const TransactionsFragmentDoc = gql`
     fragment transactions on Transactions {
@@ -608,6 +948,7 @@ export const TransactionsFragmentDoc = gql`
   transactionDate
   updatedAt
   notes
+  accountName
 }
     `;
 export const InsertTransactionDocument = gql`

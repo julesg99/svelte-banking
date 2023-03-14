@@ -9,4 +9,5 @@ fragment transactions on Transactions {
   transactionDate
   updatedAt
   notes
+  accountName
 }
