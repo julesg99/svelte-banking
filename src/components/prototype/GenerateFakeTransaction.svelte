@@ -1,7 +1,13 @@
 <script lang="ts">
-	import { env } from '$env/dynamic/public';
 	import { faker } from '@faker-js/faker';
+	import type { Writable } from 'svelte/store';
+	import type { TransactionsFragment } from '../../graphql/graphql';
 	import { graphqlInsertTransactions } from '../../graphql/graphqlApi';
+	import { transactionStore } from '../../store';
+
+  export let transactions: TransactionsFragment[]
+  $: console.log('transactions @ generation', transactions)
+  // export let transactions: TransactionsFragment[]
 
 	function generateTransaction() {
 		const transactionDate = faker.date.between('2023-02-13', '2023-04-13');
@@ -36,12 +42,14 @@
 	async function generate() {
 		disabled = true;
     const response = await graphqlInsertTransactions({object: [...Array(10).keys()].map(generateTransaction)})
-
+    const insertedTrans = response.data.insert_Transactions?.returning
+    console.log(insertedTrans)
 		if (response.errors) {
 			result = 'GraphQL Errors :(. Please see console';
 			console.error('Genertion error - open me!', response.errors);
-		} else {
-			result = JSON.stringify(response.data);
+		} else if (insertedTrans) {
+			result = JSON.stringify(insertedTrans.map((transaction) => transaction.id));
+      transactions = [...transactions, ...insertedTrans]
 		}
 		disabled = false;
 	}

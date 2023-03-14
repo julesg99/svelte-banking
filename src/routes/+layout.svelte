@@ -1,6 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import GenerateFakeTransaction from '../components/prototype/GenerateFakeTransaction.svelte';
+	import { transactionStore } from '../store';
+
+  $: transactions = $transactionStore
 </script>
 
 <div class="flex">
@@ -22,7 +25,7 @@
 			</svg>
 			<div class="ml-2 font-bold">Hey Integritier!</div>
 		</div>
-		<div class="mt-8"><GenerateFakeTransaction /></div>
+		<div class="mt-8"><GenerateFakeTransaction {transactions} /></div>
 	</div>
 	<div class="w-full">
 		<div

@@ -8,7 +8,7 @@
   let aggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetTransactionSumByStatusQuery["Transactions_aggregate"]["aggregate"]>()
   $: transactions = $transactionStore
-  $: console.log('transactions @ base route', transactions)
+  // $: console.log('transactions @ base route', transactions)
 
   onMount(() => {
     loadTransactionsWithAggregates()

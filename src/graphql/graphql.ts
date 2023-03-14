@@ -575,7 +575,7 @@ export type InsertTransactionMutationVariables = Exact<{
 }>;
 
 
-export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', id: number }> } | null };
+export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null }> } | null };
 
 export type GetTransactionSumByStatusQueryVariables = Exact<{
   status?: InputMaybe<Scalars['String']>;
@@ -615,11 +615,11 @@ export const InsertTransactionDocument = gql`
   insert_Transactions(objects: $object) {
     affected_rows
     returning {
-      id
+      ...transactions
     }
   }
 }
-    `;
+    ${TransactionsFragmentDoc}`;
 export const GetTransactionSumByStatusDocument = gql`
     query GetTransactionSumByStatus($status: String) {
   Transactions_aggregate(where: {status: {_eq: $status}}) {
