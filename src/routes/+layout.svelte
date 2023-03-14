@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import BreadCrumbs from '../components/BreadCrumbs.svelte';
-	import GenerateFakeTransaction from '../components/prototype/GenerateFakeTransaction.svelte';
+	import GenerateFakeTransaction from '../components/GenerateFakeTransaction.svelte';
 	import type { GetAccountsQuery } from '../graphql/graphql';
 	import { graphqlGetAccounts } from '../graphql/graphqlApi';
 	import { accountStore } from '../store';

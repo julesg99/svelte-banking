@@ -14,13 +14,21 @@
   </div>
   <div>
     <p>Total For All: </p>
-    <p>{aggregates?.sum?.amount}</p>
+    {#if (aggregates?.sum?.amount)}
+      <p>{aggregates.sum.amount}</p>   
+    {:else}
+      <p>$0.00</p> 
+    {/if}
   </div>
   <divider class="border border-1 border-gray-300" />
 
   <div>
     <p>Largest Purchase:</p>
-    <p>{aggregates?.max?.amount}</p>
+  {#if (aggregates?.max?.amount)}
+    <p>{aggregates.max.amount}</p>
+  {:else}
+    <p>$0.00</p>
+  {/if}
   </div>
   <divider class="border border-1 border-gray-300" />
 

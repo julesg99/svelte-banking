@@ -13,7 +13,6 @@
   let transactions: TransactionsFragment[] = []
 
   $: accounts = $accountStore
-  console.log(accounts)
 
   let accountName: string
   $: {
@@ -39,4 +38,11 @@
 </script>
 
 <AccountAggregatesHeader aggregates={accountAggregates}/>
-<TransactionTable {transactions} />
+
+{#if transactions.length > 0}
+  <TransactionTable {transactions} />
+{:else}
+  <div class="flex justify-center mt-10">
+    <p class="font-bold text-cyan-500 text-xl">Huh? You don't have any transactions yet? Get to work!</p>
+  </div>
+{/if}

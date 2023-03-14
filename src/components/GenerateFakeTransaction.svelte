@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { faker } from '@faker-js/faker';
-	import type { AccountsFragment } from '../../graphql/graphql';
-	import { graphqlInsertTransactions } from '../../graphql/graphqlApi';
-	import { transactionStore } from '../../store';
+	import type { AccountsFragment } from '../graphql/graphql';
+	import { graphqlInsertTransactions } from '../graphql/graphqlApi';
+	import { transactionStore } from '../store';
 
   export let accounts: AccountsFragment[]
   $: transactions = $transactionStore
