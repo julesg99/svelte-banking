@@ -1106,6 +1106,13 @@ export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }> };
 
+export type GetTransactionByAccountQueryVariables = Exact<{
+  object: Scalars['Int'];
+}>;
+
+
+export type GetTransactionByAccountQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }> };
+
 export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1175,6 +1182,13 @@ export const GetTransactionsDocument = gql`
   }
 }
     ${TransactionsFragmentDoc}`;
+export const GetTransactionByAccountDocument = gql`
+    query getTransactionByAccount($object: Int!) {
+  Transactions(where: {accountId: {_eq: $object}}) {
+    ...transactions
+  }
+}
+    ${TransactionsFragmentDoc}`;
 export const GetTransactionsWithAggregatesDocument = gql`
     query getTransactionsWithAggregates {
   Transactions_aggregate {
@@ -1207,6 +1221,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     },
     getTransactions(variables?: GetTransactionsQueryVariables, options?: C): Promise<GetTransactionsQuery> {
       return requester<GetTransactionsQuery, GetTransactionsQueryVariables>(GetTransactionsDocument, variables, options) as Promise<GetTransactionsQuery>;
+    },
+    getTransactionByAccount(variables: GetTransactionByAccountQueryVariables, options?: C): Promise<GetTransactionByAccountQuery> {
+      return requester<GetTransactionByAccountQuery, GetTransactionByAccountQueryVariables>(GetTransactionByAccountDocument, variables, options) as Promise<GetTransactionByAccountQuery>;
     },
     getTransactionsWithAggregates(variables?: GetTransactionsWithAggregatesQueryVariables, options?: C): Promise<GetTransactionsWithAggregatesQuery> {
       return requester<GetTransactionsWithAggregatesQuery, GetTransactionsWithAggregatesQueryVariables>(GetTransactionsWithAggregatesDocument, variables, options) as Promise<GetTransactionsWithAggregatesQuery>;

@@ -1,0 +1,5 @@
+query getTransactionByAccount ($object: Int!) {
+  Transactions(where: {accountId: {_eq: $object}}) {
+    ...transactions
+  }
+}

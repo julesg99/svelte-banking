@@ -73,7 +73,7 @@
       on:click={generate}
       {disabled}>Generate 10 Transactions</button
     >
-    <p class="opacity-0 z-10 flex justify-center items-center text-sm {disabled
+    <p class="opacity-0 ml-1 text-sm {disabled
       ? 'opacity-100'
       : ''
     }"
