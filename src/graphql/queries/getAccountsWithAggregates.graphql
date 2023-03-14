@@ -1,0 +1,10 @@
+query getAccounts {
+  Accounts {
+    ...accounts
+  }
+  Accounts_aggregate {
+    aggregate {
+      count
+    }
+  }
+}

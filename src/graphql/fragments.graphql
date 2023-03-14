@@ -10,7 +10,11 @@ fragment transactions on Transactions {
   updatedAt
   notes
   Account {
-    id
-    name
+    ...accounts
   }
+}
+
+fragment accounts on Accounts {
+  id
+  name
 }

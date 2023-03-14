@@ -5,7 +5,7 @@
 	import type { GetTransactionSumByStatusQuery, GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
 	import TransactionTable from "../components/TransactionTable.svelte";
 
-  let aggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
+  let transactionAggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetTransactionSumByStatusQuery["Transactions_aggregate"]["aggregate"]>()
   $: transactions = $transactionStore
   // $: console.log('transactions @ base route', transactions)
@@ -20,10 +20,10 @@
     const response = await graphqlGetTransactionsWithAggregates({})
     if (response.errors) {
       response.errors.map((error: any) => console.log(error.message))
-      alert('Server to load transactions.')
+      alert('Server failed to load transactions.')
     } else {
       transactions = response.data.Transactions
-      aggregates = response.data.Transactions_aggregate.aggregate
+      transactionAggregates = response.data.Transactions_aggregate.aggregate
     }
   }
 
@@ -39,4 +39,4 @@
   }
 </script>
 
-<TransactionTable {aggregates} {sumByStatus} {transactions} />
+<TransactionTable aggregates={transactionAggregates} {sumByStatus} {transactions} />

@@ -1078,12 +1078,21 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
+export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } };
+
+export type AccountsFragment = { __typename?: 'Accounts', id: number, name: string };
+
 export type InsertTransactionMutationVariables = Exact<{
   object: Array<Transactions_Insert_Input> | Transactions_Insert_Input;
 }>;
 
 
 export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }> } | null };
+
+export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAccountsQuery = { __typename?: 'query_root', Accounts: Array<{ __typename?: 'Accounts', id: number, name: string }>, Accounts_aggregate: { __typename?: 'Accounts_aggregate', aggregate?: { __typename?: 'Accounts_aggregate_fields', count: number } | null } };
 
 export type GetTransactionSumByStatusQueryVariables = Exact<{
   status?: InputMaybe<Scalars['String']>;
@@ -1102,8 +1111,12 @@ export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]:
 
 export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', name: string, id: number } }> };
 
-export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } };
-
+export const AccountsFragmentDoc = gql`
+    fragment accounts on Accounts {
+  id
+  name
+}
+    `;
 export const TransactionsFragmentDoc = gql`
     fragment transactions on Transactions {
   amount
@@ -1117,11 +1130,10 @@ export const TransactionsFragmentDoc = gql`
   updatedAt
   notes
   Account {
-    id
-    name
+    ...accounts
   }
 }
-    `;
+    ${AccountsFragmentDoc}`;
 export const InsertTransactionDocument = gql`
     mutation insertTransaction($object: [Transactions_insert_input!]!) {
   insert_Transactions(objects: $object) {
@@ -1132,6 +1144,18 @@ export const InsertTransactionDocument = gql`
   }
 }
     ${TransactionsFragmentDoc}`;
+export const GetAccountsDocument = gql`
+    query getAccounts {
+  Accounts {
+    ...accounts
+  }
+  Accounts_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+    ${AccountsFragmentDoc}`;
 export const GetTransactionSumByStatusDocument = gql`
     query GetTransactionSumByStatus($status: String) {
   Transactions_aggregate(where: {status: {_eq: $status}}) {
@@ -1174,6 +1198,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
     insertTransaction(variables: InsertTransactionMutationVariables, options?: C): Promise<InsertTransactionMutation> {
       return requester<InsertTransactionMutation, InsertTransactionMutationVariables>(InsertTransactionDocument, variables, options) as Promise<InsertTransactionMutation>;
+    },
+    getAccounts(variables?: GetAccountsQueryVariables, options?: C): Promise<GetAccountsQuery> {
+      return requester<GetAccountsQuery, GetAccountsQueryVariables>(GetAccountsDocument, variables, options) as Promise<GetAccountsQuery>;
     },
     GetTransactionSumByStatus(variables?: GetTransactionSumByStatusQueryVariables, options?: C): Promise<GetTransactionSumByStatusQuery> {
       return requester<GetTransactionSumByStatusQuery, GetTransactionSumByStatusQueryVariables>(GetTransactionSumByStatusDocument, variables, options) as Promise<GetTransactionSumByStatusQuery>;

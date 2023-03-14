@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { faker } from '@faker-js/faker';
-	import type { TransactionsFragment } from '../../graphql/graphql';
+	import type { AccountsFragment } from '../../graphql/graphql';
 	import { graphqlInsertTransactions } from '../../graphql/graphqlApi';
 	import { transactionStore } from '../../store';
 
-  export let transactions: TransactionsFragment[]
-  $: console.log('transactions @ generation', transactions)
-  // export let transactions: TransactionsFragment[]
+  export let accounts: AccountsFragment[]
+  $: transactions = $transactionStore
 
 	function generateTransaction() {
 		const transactionDate = faker.date.between('2023-02-13', '2023-04-13');
@@ -25,7 +24,10 @@
 				utilities: ['electricity', 'water', 'gas']
 			}[category]
 		);
-		return {
+
+    let accountId = accounts.find(acct => acct.name === accountName)?.id ?? -1
+
+    return {
 			amount: faker.finance.amount(),
 			description,
 			category,
@@ -35,11 +37,12 @@
       accountId
 		};
 	}
+  $: if (accountName !== '') disabled=false;
 
 	let result = '';
 	let statusCode = '';
-  let accountId: number;
-	let disabled = false;
+  let accountName: string = '';
+	let disabled = true;
 	async function generate() {
 		disabled = true;
     const response = await graphqlInsertTransactions({object: [...Array(10).keys()].map(generateTransaction)})
@@ -58,7 +61,7 @@
 </script>
 
 <div class="m-1 p-2 rounded-lg border border-cyan-500">
-  <input class="h-8 m-1 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Account Name" bind:value={accountId} />
+  <input class="h-8 m-1 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Account Name" bind:value={accountName} />
   <button
     class="rounded-lg border border-blue-600 bg-blue-500 p-2 m-1 text-white {disabled
       ? 'opacity-50 cursor-not-allowed'
