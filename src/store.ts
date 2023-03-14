@@ -10,5 +10,9 @@ export const transactionStore = writable(emptyTransactions)
 const emptyAccounts: AccountsFragment[] = []
 export const accountStore = writable(emptyAccounts)
 
-
-export const breadCrumbStore = writable<{ name: string; url: string }[]>([]);
+export interface breadCrumbInfo {
+  url: string,
+  name: string
+}
+const emptyCrumbs: breadCrumbInfo[] = []
+export const breadCrumbStore = writable(emptyCrumbs);

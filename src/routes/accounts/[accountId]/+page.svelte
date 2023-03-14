@@ -1,5 +1,19 @@
 <script lang='ts'>
 	import { page } from "$app/stores";
+	import { accountStore, breadCrumbStore } from "../../../store";
+
+  $: accounts = $accountStore;
+
+  let accountName: string
+  $: {
+    accountName = accounts.find(acct => acct.id === Number($page.params.accountId))?.name ?? 'Error'
+    $breadCrumbStore = [
+      { name: 'home', url: './' },
+      { name: 'accounts', url: './accounts' },
+      { name: accountName, url: `./accounts/${$page.params.accountId}` }
+    ]
+  }
+  
 </script>
 
 <div class="m-4"> 

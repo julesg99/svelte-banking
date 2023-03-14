@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import '../app.css';
+	import BreadCrumbs from '../components/BreadCrumbs.svelte';
 	import GenerateFakeTransaction from '../components/prototype/GenerateFakeTransaction.svelte';
 	import type { GetAccountsQuery } from '../graphql/graphql';
 	import { graphqlGetAccounts } from '../graphql/graphqlApi';
@@ -61,11 +62,7 @@
 		<div class="mt-4"><GenerateFakeTransaction {accounts} /></div>
 	</div>
 	<div class="w-full">
-		<div
-			class="h-[4rem] w-full bg-gray-50 flex justify-between items-center align-middle border-b-2 border-gray-200"
-		>
-			<div class="ml-5 font-bold text-cyan-600 text-xl capitalize">{pageTitle}</div>
-		</div>
+		<BreadCrumbs />
 
 		<slot />
 	</div>

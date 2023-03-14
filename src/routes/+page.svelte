@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { graphqlGetTransactionSumByStatus, graphqlGetTransactionsWithAggregates } from "../graphql/graphqlApi";
-	import { transactionStore } from "../store";
+	import { breadCrumbStore, transactionStore } from "../store";
 	import type { GetTransactionSumByStatusQuery, GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
 	import TransactionTable from "../components/TransactionTable.svelte";
 	import GeneralAggregatesHeader from "../components/GeneralAggregatesHeader.svelte";
@@ -9,7 +9,7 @@
   let transactionAggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetTransactionSumByStatusQuery["Transactions_aggregate"]["aggregate"]>()
   $: transactions = $transactionStore
-  // $: console.log('transactions @ base route', transactions)
+  $breadCrumbStore = [{ name: 'home', url: '/' }]
 
   onMount(() => {
     loadTransactionsWithAggregates()
@@ -23,7 +23,7 @@
       response.errors.map((error: any) => console.log(error.message))
       alert('Server failed to load transactions.')
     } else {
-      transactions = response.data.Transactions
+      $transactionStore = response.data.Transactions
       transactionAggregates = response.data.Transactions_aggregate.aggregate
     }
   }
