@@ -9,5 +9,8 @@ query getTransactionsWithAggregates {
   }
   Transactions(order_by: {transactionDate: asc}) {
     ...transactions
+    Account {
+      name 
+    }
   }
 }

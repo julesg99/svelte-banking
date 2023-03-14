@@ -20,8 +20,32 @@ export type Scalars = {
 /** columns and relationships of "Accounts" */
 export type Accounts = {
   __typename?: 'Accounts';
+  /** An array relationship */
+  Transactions: Array<Transactions>;
+  /** An aggregate relationship */
+  Transactions_aggregate: Transactions_Aggregate;
   id: Scalars['Int'];
   name: Scalars['String'];
+};
+
+
+/** columns and relationships of "Accounts" */
+export type AccountsTransactionsArgs = {
+  distinct_on?: InputMaybe<Array<Transactions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Transactions_Order_By>>;
+  where?: InputMaybe<Transactions_Bool_Exp>;
+};
+
+
+/** columns and relationships of "Accounts" */
+export type AccountsTransactions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Transactions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Transactions_Order_By>>;
+  where?: InputMaybe<Transactions_Bool_Exp>;
 };
 
 /** aggregated selection of "Accounts" */
@@ -62,6 +86,8 @@ export type Accounts_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "Accounts". All fields are combined with a logical 'AND'. */
 export type Accounts_Bool_Exp = {
+  Transactions?: InputMaybe<Transactions_Bool_Exp>;
+  Transactions_aggregate?: InputMaybe<Transactions_Aggregate_Bool_Exp>;
   _and?: InputMaybe<Array<Accounts_Bool_Exp>>;
   _not?: InputMaybe<Accounts_Bool_Exp>;
   _or?: InputMaybe<Array<Accounts_Bool_Exp>>;
@@ -84,6 +110,7 @@ export type Accounts_Inc_Input = {
 
 /** input type for inserting data into table "Accounts" */
 export type Accounts_Insert_Input = {
+  Transactions?: InputMaybe<Transactions_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
 };
@@ -111,6 +138,13 @@ export type Accounts_Mutation_Response = {
   returning: Array<Accounts>;
 };
 
+/** input type for inserting object relation for remote table "Accounts" */
+export type Accounts_Obj_Rel_Insert_Input = {
+  data: Accounts_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Accounts_On_Conflict>;
+};
+
 /** on_conflict condition type for table "Accounts" */
 export type Accounts_On_Conflict = {
   constraint: Accounts_Constraint;
@@ -120,6 +154,7 @@ export type Accounts_On_Conflict = {
 
 /** Ordering options when selecting data from "Accounts". */
 export type Accounts_Order_By = {
+  Transactions_aggregate?: InputMaybe<Transactions_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
 };
@@ -265,7 +300,9 @@ export type String_Comparison_Exp = {
 /** Account transaction data */
 export type Transactions = {
   __typename?: 'Transactions';
-  accountName: Scalars['String'];
+  /** An object relationship */
+  Account: Accounts;
+  accountId: Scalars['Int'];
   amount: Scalars['money'];
   category: Scalars['String'];
   createdAt: Scalars['timestamptz'];
@@ -283,6 +320,17 @@ export type Transactions_Aggregate = {
   __typename?: 'Transactions_aggregate';
   aggregate?: Maybe<Transactions_Aggregate_Fields>;
   nodes: Array<Transactions>;
+};
+
+export type Transactions_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Transactions_Aggregate_Bool_Exp_Count>;
+};
+
+export type Transactions_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Transactions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Transactions_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "Transactions" */
@@ -308,19 +356,50 @@ export type Transactions_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "Transactions" */
+export type Transactions_Aggregate_Order_By = {
+  avg?: InputMaybe<Transactions_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Transactions_Max_Order_By>;
+  min?: InputMaybe<Transactions_Min_Order_By>;
+  stddev?: InputMaybe<Transactions_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Transactions_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Transactions_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Transactions_Sum_Order_By>;
+  var_pop?: InputMaybe<Transactions_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Transactions_Var_Samp_Order_By>;
+  variance?: InputMaybe<Transactions_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "Transactions" */
+export type Transactions_Arr_Rel_Insert_Input = {
+  data: Array<Transactions_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Transactions_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Transactions_Avg_Fields = {
   __typename?: 'Transactions_avg_fields';
+  accountId?: Maybe<Scalars['Float']>;
   amount?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
+/** order by avg() on columns of table "Transactions" */
+export type Transactions_Avg_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "Transactions". All fields are combined with a logical 'AND'. */
 export type Transactions_Bool_Exp = {
+  Account?: InputMaybe<Accounts_Bool_Exp>;
   _and?: InputMaybe<Array<Transactions_Bool_Exp>>;
   _not?: InputMaybe<Transactions_Bool_Exp>;
   _or?: InputMaybe<Array<Transactions_Bool_Exp>>;
-  accountName?: InputMaybe<String_Comparison_Exp>;
+  accountId?: InputMaybe<Int_Comparison_Exp>;
   amount?: InputMaybe<Money_Comparison_Exp>;
   category?: InputMaybe<String_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -341,13 +420,15 @@ export enum Transactions_Constraint {
 
 /** input type for incrementing numeric columns in table "Transactions" */
 export type Transactions_Inc_Input = {
+  accountId?: InputMaybe<Scalars['Int']>;
   amount?: InputMaybe<Scalars['money']>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "Transactions" */
 export type Transactions_Insert_Input = {
-  accountName?: InputMaybe<Scalars['String']>;
+  Account?: InputMaybe<Accounts_Obj_Rel_Insert_Input>;
+  accountId?: InputMaybe<Scalars['Int']>;
   amount?: InputMaybe<Scalars['money']>;
   category?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -363,7 +444,7 @@ export type Transactions_Insert_Input = {
 /** aggregate max on columns */
 export type Transactions_Max_Fields = {
   __typename?: 'Transactions_max_fields';
-  accountName?: Maybe<Scalars['String']>;
+  accountId?: Maybe<Scalars['Int']>;
   amount?: Maybe<Scalars['money']>;
   category?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
@@ -376,10 +457,25 @@ export type Transactions_Max_Fields = {
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
+/** order by max() on columns of table "Transactions" */
+export type Transactions_Max_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  category?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  notes?: InputMaybe<Order_By>;
+  postDate?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  transactionDate?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Transactions_Min_Fields = {
   __typename?: 'Transactions_min_fields';
-  accountName?: Maybe<Scalars['String']>;
+  accountId?: Maybe<Scalars['Int']>;
   amount?: Maybe<Scalars['money']>;
   category?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
@@ -390,6 +486,21 @@ export type Transactions_Min_Fields = {
   status?: Maybe<Scalars['String']>;
   transactionDate?: Maybe<Scalars['date']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "Transactions" */
+export type Transactions_Min_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  category?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  notes?: InputMaybe<Order_By>;
+  postDate?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  transactionDate?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "Transactions" */
@@ -410,7 +521,8 @@ export type Transactions_On_Conflict = {
 
 /** Ordering options when selecting data from "Transactions". */
 export type Transactions_Order_By = {
-  accountName?: InputMaybe<Order_By>;
+  Account?: InputMaybe<Accounts_Order_By>;
+  accountId?: InputMaybe<Order_By>;
   amount?: InputMaybe<Order_By>;
   category?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
@@ -431,7 +543,7 @@ export type Transactions_Pk_Columns_Input = {
 /** select columns of table "Transactions" */
 export enum Transactions_Select_Column {
   /** column name */
-  AccountName = 'accountName',
+  AccountId = 'accountId',
   /** column name */
   Amount = 'amount',
   /** column name */
@@ -456,7 +568,7 @@ export enum Transactions_Select_Column {
 
 /** input type for updating data in table "Transactions" */
 export type Transactions_Set_Input = {
-  accountName?: InputMaybe<Scalars['String']>;
+  accountId?: InputMaybe<Scalars['Int']>;
   amount?: InputMaybe<Scalars['money']>;
   category?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -472,22 +584,46 @@ export type Transactions_Set_Input = {
 /** aggregate stddev on columns */
 export type Transactions_Stddev_Fields = {
   __typename?: 'Transactions_stddev_fields';
+  accountId?: Maybe<Scalars['Float']>;
   amount?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "Transactions" */
+export type Transactions_Stddev_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Transactions_Stddev_Pop_Fields = {
   __typename?: 'Transactions_stddev_pop_fields';
+  accountId?: Maybe<Scalars['Float']>;
   amount?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "Transactions" */
+export type Transactions_Stddev_Pop_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Transactions_Stddev_Samp_Fields = {
   __typename?: 'Transactions_stddev_samp_fields';
+  accountId?: Maybe<Scalars['Float']>;
   amount?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "Transactions" */
+export type Transactions_Stddev_Samp_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "Transactions" */
@@ -500,7 +636,7 @@ export type Transactions_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Transactions_Stream_Cursor_Value_Input = {
-  accountName?: InputMaybe<Scalars['String']>;
+  accountId?: InputMaybe<Scalars['Int']>;
   amount?: InputMaybe<Scalars['money']>;
   category?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -516,14 +652,22 @@ export type Transactions_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Transactions_Sum_Fields = {
   __typename?: 'Transactions_sum_fields';
+  accountId?: Maybe<Scalars['Int']>;
   amount?: Maybe<Scalars['money']>;
   id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "Transactions" */
+export type Transactions_Sum_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "Transactions" */
 export enum Transactions_Update_Column {
   /** column name */
-  AccountName = 'accountName',
+  AccountId = 'accountId',
   /** column name */
   Amount = 'amount',
   /** column name */
@@ -558,22 +702,46 @@ export type Transactions_Updates = {
 /** aggregate var_pop on columns */
 export type Transactions_Var_Pop_Fields = {
   __typename?: 'Transactions_var_pop_fields';
+  accountId?: Maybe<Scalars['Float']>;
   amount?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "Transactions" */
+export type Transactions_Var_Pop_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Transactions_Var_Samp_Fields = {
   __typename?: 'Transactions_var_samp_fields';
+  accountId?: Maybe<Scalars['Float']>;
   amount?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "Transactions" */
+export type Transactions_Var_Samp_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Transactions_Variance_Fields = {
   __typename?: 'Transactions_variance_fields';
+  accountId?: Maybe<Scalars['Float']>;
   amount?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "Transactions" */
+export type Transactions_Variance_Order_By = {
+  accountId?: InputMaybe<Order_By>;
+  amount?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** ordering argument of a cursor */
@@ -763,9 +931,9 @@ export type Query_Root = {
   Accounts_aggregate: Accounts_Aggregate;
   /** fetch data from the table: "Accounts" using primary key columns */
   Accounts_by_pk?: Maybe<Accounts>;
-  /** fetch data from the table: "Transactions" */
+  /** An array relationship */
   Transactions: Array<Transactions>;
-  /** fetch aggregated fields from the table: "Transactions" */
+  /** An aggregate relationship */
   Transactions_aggregate: Transactions_Aggregate;
   /** fetch data from the table: "Transactions" using primary key columns */
   Transactions_by_pk?: Maybe<Transactions>;
@@ -827,9 +995,9 @@ export type Subscription_Root = {
   Accounts_by_pk?: Maybe<Accounts>;
   /** fetch data from the table in a streaming manner: "Accounts" */
   Accounts_stream: Array<Accounts>;
-  /** fetch data from the table: "Transactions" */
+  /** An array relationship */
   Transactions: Array<Transactions>;
-  /** fetch aggregated fields from the table: "Transactions" */
+  /** An aggregate relationship */
   Transactions_aggregate: Transactions_Aggregate;
   /** fetch data from the table: "Transactions" using primary key columns */
   Transactions_by_pk?: Maybe<Transactions>;
@@ -915,7 +1083,7 @@ export type InsertTransactionMutationVariables = Exact<{
 }>;
 
 
-export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string }> } | null };
+export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }> } | null };
 
 export type GetTransactionSumByStatusQueryVariables = Exact<{
   status?: InputMaybe<Scalars['String']>;
@@ -927,14 +1095,14 @@ export type GetTransactionSumByStatusQuery = { __typename?: 'query_root', Transa
 export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string }> };
+export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }> };
 
 export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string }> };
+export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', name: string, id: number } }> };
 
-export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, accountName: string };
+export type TransactionsFragment = { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } };
 
 export const TransactionsFragmentDoc = gql`
     fragment transactions on Transactions {
@@ -948,7 +1116,10 @@ export const TransactionsFragmentDoc = gql`
   transactionDate
   updatedAt
   notes
-  accountName
+  Account {
+    id
+    name
+  }
 }
     `;
 export const InsertTransactionDocument = gql`
@@ -992,6 +1163,9 @@ export const GetTransactionsWithAggregatesDocument = gql`
   }
   Transactions(order_by: {transactionDate: asc}) {
     ...transactions
+    Account {
+      name
+    }
   }
 }
     ${TransactionsFragmentDoc}`;

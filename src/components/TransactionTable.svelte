@@ -38,32 +38,31 @@
 
 <table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded shadow-lg">
   <tr class="w-[98%] outline outline-1 outline-gray-300 rounded p-2 text-center">
-    <td class="">Account</td>
-    <td class="">Status</td>
-    <td class="">Amount</td>
-    <td class="">Category</td>
-    <td class="w-48">Description</td>
-    <td class="">Transaction Date</td>
-    <td class="">Post Date</td>
-    <td class="">Notes</td>
+    <td class="w-40">Name</td>
+    <td class="w-10">Status</td>
+    <td class="w-10">Amount</td>
+    <td class="w-32">Transaction Date</td>
+    <td class="w-32">Post Date</td>
+    <td class="w-32">Category</td>
+    <td class="w-1/5">Description</td>
+    <td class="w-1/5">Notes</td>
   </tr>
   {#each transactions as entry (entry.id)}
     <tr class='text-center border-t border-t-1'>
-      <td>{entry.accountName}</td>
-      <td class="capitalize">{entry.status}</td>
-      <td>{entry.amount}</td>
+      <td>{entry.Account.name}</td>
+      <td class="capitalize px-2">{entry.status}</td>
+      <td class="px-2">{entry.amount}</td>
+      <td><Time timestamp={entry.transactionDate}/></td>
+
+      {#if entry.postDate} <td><Time timestamp={entry.postDate}/></td>
+      {:else} <td></td>
+      {/if}
+
       <td class="capitalize">{entry.category}</td>
       <td>{entry.description}</td>
-      <td><Time timestamp={entry.transactionDate}/></td>
-      {#if entry.postDate}
-        <td><Time timestamp={entry.postDate}/></td>
-      {:else}
-        <td></td>
-      {/if}
-      {#if entry.notes}
-        <td>{entry.notes}</td>
-      {:else}
-        <td></td>
+
+      {#if entry.notes} <td>{entry.notes}</td>
+      {:else} <td></td>
       {/if}
     </tr>
   {/each}

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { faker } from '@faker-js/faker';
-	import type { Writable } from 'svelte/store';
 	import type { TransactionsFragment } from '../../graphql/graphql';
 	import { graphqlInsertTransactions } from '../../graphql/graphqlApi';
 	import { transactionStore } from '../../store';
@@ -33,13 +32,13 @@
 			status,
 			transactionDate,
 			postDate,
-      accountName
+      accountId
 		};
 	}
 
 	let result = '';
 	let statusCode = '';
-  let accountName: string;
+  let accountId: number;
 	let disabled = false;
 	async function generate() {
 		disabled = true;
@@ -59,7 +58,7 @@
 </script>
 
 <div class="m-1 p-2 rounded-lg border border-cyan-500">
-  <input class="h-8 m-1 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Account Name" bind:value={accountName} />
+  <input class="h-8 m-1 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Account Name" bind:value={accountId} />
   <button
     class="rounded-lg border border-blue-600 bg-blue-500 p-2 m-1 text-white {disabled
       ? 'opacity-50 cursor-not-allowed'
