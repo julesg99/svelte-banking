@@ -37,7 +37,10 @@
       accountId
 		};
 	}
-  $: if (accountName !== '') disabled=false;
+  $: {
+    if (accountName !== '') disabled=false
+    else disabled = true
+  }
 
 	let result = '';
 	let statusCode = '';
@@ -62,14 +65,21 @@
 
 <div class="m-1 p-2 rounded-lg border border-cyan-500">
   <input class="h-8 m-1 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Account Name" bind:value={accountName} />
-  <button
-    class="rounded-lg border border-blue-600 bg-blue-500 p-2 m-1 text-white {disabled
-      ? 'opacity-50 cursor-not-allowed'
-      : ''}"
-    on:click={generate}
-    {disabled}>Generate 10 Transactions</button
-  >
-	<div>
+  <div class=''>
+    <button
+      class="rounded-lg border border-cyan-600 bg-cyan-500 p-2 m-1 hover:bg-cyan-400 hover:outline-cyan-100 {disabled
+        ? 'opacity-50 cursor-not-allowed'
+        : ''}"
+      on:click={generate}
+      {disabled}>Generate 10 Transactions</button
+    >
+    <p class="opacity-0 z-10 flex justify-center items-center text-sm {disabled
+      ? 'opacity-100'
+      : ''
+    }"
+    >Please enter a valid Account Name to Generate Transactions.</p>
+  </div>
+	<div class="mt-4">
 		<div>Response</div>
 		<div>Status: {statusCode}</div>
 		<div>{result}</div>
