@@ -3,7 +3,7 @@
 	import { onMount } from "svelte";
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
 	import TransactionTable from "../../../../components/TransactionTable.svelte";
-	import type { GetFilteredTransactionQuery, TransactionsFragment } from "../../../../graphql/graphql";
+	import { Order_By, type GetFilteredTransactionQuery, type TransactionsFragment } from "../../../../graphql/graphql";
 	import { getFilteredTransactionsWithAggregates } from "../../../../services/getData";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
@@ -38,11 +38,14 @@
   }
   
   let statusFilter: string
+  let dateFilter: Date
+  let categoryFilter: string
+
   async function changeStatusFilter() {
     let response
-    if (!statusTypes.includes(statusFilter)) {
+    if (!statusTypes.includes(statusFilter)) 
       response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": Number($page.params.accountId)}})
-    } else {
+    else {
       response = await getFilteredTransactionsWithAggregates(
         {
           "accountId": {"_eq": Number($page.params.accountId)},
@@ -50,7 +53,38 @@
         }
       )
     }
-     
+    accountAggregates = response.accountAggregates
+    transactions = response.transactions
+  }
+
+  async function changeDateFilter() {
+    let response
+    if (!dateFilter)
+      response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": Number($page.params.accountId)}})
+    else {
+      response = await getFilteredTransactionsWithAggregates(
+        {
+          "accountId": {"_eq": Number($page.params.accountId)},
+          "transactionDate": {"_gte": dateFilter}
+        }, Order_By.Asc
+      )
+    }
+    accountAggregates = response.accountAggregates
+    transactions = response.transactions
+  }
+
+  async function changeCategoryFilter() {
+    let response
+    if (!categoryFilter)
+      response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": Number($page.params.accountId)}})
+    else {
+      response = await getFilteredTransactionsWithAggregates(
+        {
+          "accountId": {"_eq": Number($page.params.accountId)},
+          "category": {"_like": categoryFilter.toLowerCase()}
+        }
+      )
+    }
     accountAggregates = response.accountAggregates
     transactions = response.transactions
   }
@@ -67,8 +101,12 @@
       <option value={status} class="capitalize">{status}</option>
     {/each}
   </select>
-  <input class="h-10 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Transaction Date"/>
-  <input class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category" />
+  <input type='date' bind:value={dateFilter} on:change={() => changeDateFilter()}
+    class="h-10 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Transaction Date"
+  />
+  <input bind:value={categoryFilter} on:change={() => changeCategoryFilter()}
+    class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category" 
+  />
 </div>
 {#if transactions.length > 0}
   <TransactionTable {transactions} />

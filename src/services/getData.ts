@@ -1,10 +1,10 @@
-import type { AccountsFragment, GetAccountsQuery, GetFilteredTransactionQuery, TransactionsFragment, Transactions_Bool_Exp } from "../graphql/graphql"
+import type { AccountsFragment, GetAccountsQuery, GetFilteredTransactionQuery, Order_By, TransactionsFragment, Transactions_Bool_Exp } from "../graphql/graphql"
 import { graphqlGetAccounts, graphqlGetFilteredTransactionsWithAggregates } from "../graphql/graphqlApi"
 
-export async function getFilteredTransactionsWithAggregates(where: Transactions_Bool_Exp) {
+export async function getFilteredTransactionsWithAggregates(where: Transactions_Bool_Exp, orderBy?: Order_By) {
   let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   let transactions: TransactionsFragment[] = []
-  const response = await graphqlGetFilteredTransactionsWithAggregates({where})
+  const response = await graphqlGetFilteredTransactionsWithAggregates({where: where, dateOrder: orderBy})
   if (response.errors) {
     response.errors.map((error: any) => console.log(error.message))
     alert('Account transactions failed to load.')

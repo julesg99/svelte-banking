@@ -1096,6 +1096,7 @@ export type GetAccountsQuery = { __typename?: 'query_root', Accounts: Array<{ __
 
 export type GetFilteredTransactionQueryVariables = Exact<{
   where: Transactions_Bool_Exp;
+  dateOrder?: InputMaybe<Order_By>;
 }>;
 
 
@@ -1147,8 +1148,8 @@ export const GetAccountsDocument = gql`
 }
     ${AccountsFragmentDoc}`;
 export const GetFilteredTransactionDocument = gql`
-    query getFilteredTransaction($where: Transactions_bool_exp!) {
-  Transactions(where: $where) {
+    query getFilteredTransaction($where: Transactions_bool_exp!, $dateOrder: order_by) {
+  Transactions(where: $where, order_by: {transactionDate: $dateOrder}) {
     ...transactions
   }
   Transactions_aggregate(where: $where) {
