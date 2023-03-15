@@ -15,13 +15,15 @@
   $: accounts = $accountStore
 
   let accountName: string
+  let accountId: string
   $: {
-    accountName = accounts.find(acct => acct.id === Number($page.params.accountId))?.name ?? 'Error'
+    accountId = $page.params.accountId
+    accountName = accounts.find(acct => acct.id === Number(accountId))?.name ?? 'Error'
     $breadCrumbStore = [
       { name: 'home', url: './' },
       { name: 'accounts', url: './accounts' },
-      { name: accountName, url: `./accounts/${$page.params.accountId}` },
-      { name: 'transactions', url: `./accounts/${$page.params.accountId}/transactions`}
+      { name: accountName, url: `./accounts/${accountId}` },
+      { name: 'transactions', url: `./accounts/${accountId}/transactions`}
     ]
   }
   
@@ -38,7 +40,15 @@
 </script>
 
 <AccountAggregatesHeader aggregates={accountAggregates}/>
-
+<div class="">
+  <input class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category"/>
+  <select class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm">
+    <option>Select Status Filter</option>
+    <option>All</option>
+    <option>Completed</option>
+    <option>Pending</option>
+  </select>
+</div>
 {#if transactions.length > 0}
   <TransactionTable {transactions} />
 {:else}

@@ -1,7 +1,16 @@
 <script lang='ts'>
 	import { page } from "$app/stores";
-	import { accountStore, breadCrumbStore, type breadCrumbInfo } from "../store";
-  // $: accounts = $accountStore
+	import { onMount } from "svelte";
+	import { breadCrumbStore, type breadCrumbInfo } from "../store";
+
+  let testCrumbs: breadCrumbInfo[]
+  onMount(() => makeCrumbs())
+
+  function makeCrumbs() {
+    let route = $page.route.id?.split('/')
+    route?.splice(0,1)
+    console.log(route)
+  }
 
   let breadCrumbs: breadCrumbInfo[]
   $: breadCrumbs = $breadCrumbStore

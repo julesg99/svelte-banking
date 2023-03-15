@@ -2,15 +2,21 @@
   import type { AccountsFragment } from "../graphql/graphql";
 
   export let accounts: AccountsFragment[]
+  let filteredAccounts: AccountsFragment[]
+  let listToDisplay: AccountsFragment[]
 
+  let filter: string
+  $: {
+    filteredAccounts = accounts.filter((acct) => acct.name.includes(filter))
+    if (filteredAccounts.length > 0) listToDisplay = filteredAccounts
+    else listToDisplay = accounts
+  }
 </script>
 
 <div class="m-2">
-  <input class="h-8 m-1 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Not Implemented"/>
-  
+  <input class="h-10 m-1 ml-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Name" bind:value={filter}/>
   <div class="grid grid-cols-4">
-
-    {#each accounts as acct (acct.id)}
+    {#each listToDisplay as acct (acct.id)}
     <div class="grid-item p-2 m-2 border border-1 border-gray-300 rounded-xl shadow-md">
       <div class="h-6 bg-cyan-700 -m-2 rounded-t-xl" />
       
