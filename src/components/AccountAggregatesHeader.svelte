@@ -13,7 +13,7 @@
     <p>{aggregates?.count}</p>
   </div>
   <div>
-    <p>Total For All: </p>
+    <p>Total: </p>
     {#if (aggregates?.sum?.amount)}
       <p>{aggregates.sum.amount}</p>   
     {:else}

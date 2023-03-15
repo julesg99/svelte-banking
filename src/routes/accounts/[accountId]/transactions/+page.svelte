@@ -7,28 +7,25 @@
 	import { getFilteredTransactionsWithAggregates } from "../../../../services/getData";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
+  $: accounts = $accountStore
+  let accountId: string
+  let accountName: string
+  let statusTypes: string[] = []
+  let transactions: TransactionsFragment[] = []
+  let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
+
   onMount(async () => {
     let response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": Number($page.params.accountId)}})
     accountAggregates = response.accountAggregates
     transactions = response.transactions
-  })
 
-  let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
-  let transactions: TransactionsFragment[] = []
-
-  $: accounts = $accountStore
-
-  let statusTypes: string[] = ['all']
-  $: {
     let status: string[] = []
     transactions.flatMap(trans => {
       if (!status.includes(trans.status)) status.push(trans.status)
     })
     statusTypes = [...statusTypes, ...status]
-  }
+  })
 
-  let accountName: string
-  let accountId: string
   $: {
     accountId = $page.params.accountId
     accountName = accounts.find(acct => acct.id === Number(accountId))?.name ?? 'Error'
@@ -40,11 +37,31 @@
     ]
   }
   
+  let statusFilter: string
+  async function changeStatusFilter() {
+    let response
+    if (!statusTypes.includes(statusFilter)) {
+      response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": Number($page.params.accountId)}})
+    } else {
+      response = await getFilteredTransactionsWithAggregates(
+        {
+          "accountId": {"_eq": Number($page.params.accountId)},
+          "status": {"_eq": statusFilter}
+        }
+      )
+    }
+     
+    accountAggregates = response.accountAggregates
+    transactions = response.transactions
+  }
+
 </script>
 
 <AccountAggregatesHeader aggregates={accountAggregates}/>
 <div class="">
-  <select class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm capitalize">
+  <select bind:value={statusFilter} on:change={() => changeStatusFilter()}
+    class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm capitalize"
+  >
     <option>Status Filter</option>
     {#each statusTypes as status, index}
       <option value={status} class="capitalize">{status}</option>
