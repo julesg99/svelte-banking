@@ -1101,6 +1101,13 @@ export type GetTransactionSumByStatusQueryVariables = Exact<{
 
 export type GetTransactionSumByStatusQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null } };
 
+export type GetFilteredTransactionQueryVariables = Exact<{
+  where: Transactions_Bool_Exp;
+}>;
+
+
+export type GetFilteredTransactionQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }>, Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null, max?: { __typename?: 'Transactions_max_fields', amount?: any | null } | null } | null } };
+
 export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1175,6 +1182,24 @@ export const GetTransactionSumByStatusDocument = gql`
   }
 }
     `;
+export const GetFilteredTransactionDocument = gql`
+    query getFilteredTransaction($where: Transactions_bool_exp!) {
+  Transactions(where: $where) {
+    ...transactions
+  }
+  Transactions_aggregate(where: $where) {
+    aggregate {
+      count
+      sum {
+        amount
+      }
+      max {
+        amount
+      }
+    }
+  }
+}
+    ${TransactionsFragmentDoc}`;
 export const GetTransactionsDocument = gql`
     query getTransactions {
   Transactions {
@@ -1229,6 +1254,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     },
     GetTransactionSumByStatus(variables?: GetTransactionSumByStatusQueryVariables, options?: C): Promise<GetTransactionSumByStatusQuery> {
       return requester<GetTransactionSumByStatusQuery, GetTransactionSumByStatusQueryVariables>(GetTransactionSumByStatusDocument, variables, options) as Promise<GetTransactionSumByStatusQuery>;
+    },
+    getFilteredTransaction(variables: GetFilteredTransactionQueryVariables, options?: C): Promise<GetFilteredTransactionQuery> {
+      return requester<GetFilteredTransactionQuery, GetFilteredTransactionQueryVariables>(GetFilteredTransactionDocument, variables, options) as Promise<GetFilteredTransactionQuery>;
     },
     getTransactions(variables?: GetTransactionsQueryVariables, options?: C): Promise<GetTransactionsQuery> {
       return requester<GetTransactionsQuery, GetTransactionsQueryVariables>(GetTransactionsDocument, variables, options) as Promise<GetTransactionsQuery>;

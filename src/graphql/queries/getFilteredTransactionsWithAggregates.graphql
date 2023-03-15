@@ -1,0 +1,16 @@
+query getFilteredTransaction($where: Transactions_bool_exp!) {
+  Transactions(where: $where) {
+    ...transactions
+  }
+  Transactions_aggregate(where: $where) {
+    aggregate {
+      count
+      sum {
+        amount
+      }
+      max {
+        amount
+      }
+    }
+  }
+}
