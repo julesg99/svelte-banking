@@ -4,10 +4,14 @@
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
 	import TransactionTable from "../../../../components/TransactionTable.svelte";
 	import type { GetFilteredTransactionQuery, TransactionsFragment } from "../../../../graphql/graphql";
-	import { graphqlGetFilteredTransactionsWithAggregates } from "../../../../graphql/graphqlApi";
+	import { getFilteredTransactionsWithAggregates } from "../../../../services/getTransactions";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
-  onMount(() => getTransactionsByAccount(Number($page.params.accountId)))
+  onMount(async () => {
+    let response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": Number($page.params.accountId)}})
+    accountAggregates = response.accountAggregates
+    transactions = response.transactions
+  })
 
   let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   let transactions: TransactionsFragment[] = []
@@ -36,16 +40,6 @@
     ]
   }
   
-  async function getTransactionsByAccount(accountId: number) {
-    const response = await graphqlGetFilteredTransactionsWithAggregates({where: {"accountId": {"_eq": accountId}}})
-    if (response.errors) {
-      response.errors.map((error: any) => console.log(error.message))
-      alert('Account transactions failed to load.')
-    } else {
-      transactions = response.data.Transactions
-      accountAggregates = response.data.Transactions_aggregate.aggregate
-    }
-  }
 </script>
 
 <AccountAggregatesHeader aggregates={accountAggregates}/>

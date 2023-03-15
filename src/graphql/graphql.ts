@@ -1101,11 +1101,6 @@ export type GetFilteredTransactionQueryVariables = Exact<{
 
 export type GetFilteredTransactionQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }>, Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null, max?: { __typename?: 'Transactions_max_fields', amount?: any | null } | null } | null } };
 
-export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTransactionsWithAggregatesQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null }, Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', name: string, id: number } }> };
-
 export const AccountsFragmentDoc = gql`
     fragment accounts on Accounts {
   id
@@ -1169,24 +1164,6 @@ export const GetFilteredTransactionDocument = gql`
   }
 }
     ${TransactionsFragmentDoc}`;
-export const GetTransactionsWithAggregatesDocument = gql`
-    query getTransactionsWithAggregates {
-  Transactions_aggregate {
-    aggregate {
-      sum {
-        amount
-      }
-      count
-    }
-  }
-  Transactions(order_by: {transactionDate: asc}) {
-    ...transactions
-    Account {
-      name
-    }
-  }
-}
-    ${TransactionsFragmentDoc}`;
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
 export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
@@ -1198,9 +1175,6 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     },
     getFilteredTransaction(variables: GetFilteredTransactionQueryVariables, options?: C): Promise<GetFilteredTransactionQuery> {
       return requester<GetFilteredTransactionQuery, GetFilteredTransactionQueryVariables>(GetFilteredTransactionDocument, variables, options) as Promise<GetFilteredTransactionQuery>;
-    },
-    getTransactionsWithAggregates(variables?: GetTransactionsWithAggregatesQueryVariables, options?: C): Promise<GetTransactionsWithAggregatesQuery> {
-      return requester<GetTransactionsWithAggregatesQuery, GetTransactionsWithAggregatesQueryVariables>(GetTransactionsWithAggregatesDocument, variables, options) as Promise<GetTransactionsWithAggregatesQuery>;
     }
   };
 }

@@ -2,7 +2,6 @@ import { env } from "$env/dynamic/public";
 import { print } from 'graphql';
 import { 
   InsertTransactionDocument, type InsertTransactionMutation, type InsertTransactionMutationVariables,
-  GetTransactionsWithAggregatesDocument, type GetTransactionsWithAggregatesQueryVariables, type GetTransactionsWithAggregatesQuery,
   GetAccountsDocument, type GetAccountsQueryVariables, type GetAccountsQuery,
   GetFilteredTransactionDocument, type GetFilteredTransactionQueryVariables, type GetFilteredTransactionQuery 
 } from "./graphql";
@@ -18,18 +17,6 @@ type GraphQLResponse<T> = {
 }
 
 // GETTERS //
-
-export async function graphqlGetTransactionsWithAggregates(variables: GetTransactionsWithAggregatesQueryVariables) {
-  const request = await fetch(env.PUBLIC_HASURA_URL, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      query: print(GetTransactionsWithAggregatesDocument),
-      variables
-    })
-  })
-  return await request.json() as GraphQLResponse<GetTransactionsWithAggregatesQuery>
-}
 
 export async function graphqlGetAccounts(variables: GetAccountsQueryVariables) {
   const request = await fetch(env.PUBLIC_HASURA_URL, {

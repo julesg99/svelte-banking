@@ -1,32 +1,24 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { graphqlGetFilteredTransactionsWithAggregates, graphqlGetTransactionsWithAggregates } from "../graphql/graphqlApi";
+	import { graphqlGetFilteredTransactionsWithAggregates } from "../graphql/graphqlApi";
 	import { breadCrumbStore, transactionStore } from "../store";
-	import type { GetFilteredTransactionQuery, GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
+	import type { GetFilteredTransactionQuery } from "../graphql/graphql";
 	import TransactionTable from "../components/TransactionTable.svelte";
 	import GeneralAggregatesHeader from "../components/GeneralAggregatesHeader.svelte";
+	import { getFilteredTransactionsWithAggregates } from "../services/getTransactions";
 
-  let transactionAggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
+  let transactionAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]>()
   $: transactions = $transactionStore
   $breadCrumbStore = [{ name: 'home', url: '/' }]
 
-  onMount(() => {
-    loadTransactionsWithAggregates()
+  onMount(async () => {
+    let response = await getFilteredTransactionsWithAggregates({})
+    $transactionStore = response.transactions
+    transactionAggregates = response.accountAggregates
     getTransactionSumByStatus('completed')
     getTransactionSumByStatus('pending')
   })
-
-  async function loadTransactionsWithAggregates() {
-    const response = await graphqlGetTransactionsWithAggregates({})
-    if (response.errors) {
-      response.errors.map((error: any) => console.log(error.message))
-      alert('Server failed to load transactions.')
-    } else {
-      $transactionStore = response.data.Transactions
-      transactionAggregates = response.data.Transactions_aggregate.aggregate
-    }
-  }
 
   async function getTransactionSumByStatus(status: string) {
     const response = await graphqlGetFilteredTransactionsWithAggregates({where: {"status": {"_eq": status}}})

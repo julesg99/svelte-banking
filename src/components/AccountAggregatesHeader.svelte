@@ -1,7 +1,7 @@
 <script lang='ts'>
-	import type { GetTransactionByAccountWithAggregatesQuery } from "../graphql/graphql";
+	import type { GetFilteredTransactionQuery } from "../graphql/graphql";
 
-  export let aggregates: GetTransactionByAccountWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
+  export let aggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
 </script>
 
 <div class="flex justify-center w-[98%] space-x-10 outline outline-1 outline-gray-300 m-3 p-3 rounded text-center shadow-md">
