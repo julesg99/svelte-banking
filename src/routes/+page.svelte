@@ -6,6 +6,7 @@
 	import TransactionTable from "../components/TransactionTable.svelte";
 	import GeneralAggregatesHeader from "../components/GeneralAggregatesHeader.svelte";
 	import { getFilteredTransactionsWithAggregates } from "../services/getData";
+	import TransactionsFilters from "../components/TransactionsFilters.svelte";
 
   let transactionAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]>()
@@ -33,4 +34,5 @@
 </script>
 
 <GeneralAggregatesHeader aggregates={transactionAggregates} {sumByStatus} />
+<TransactionsFilters bind:transactions />
 <TransactionTable {transactions} />
