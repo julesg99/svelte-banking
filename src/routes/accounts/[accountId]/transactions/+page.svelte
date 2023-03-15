@@ -4,7 +4,7 @@
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
 	import TransactionTable from "../../../../components/TransactionTable.svelte";
 	import type { GetTransactionByAccountWithAggregatesQuery, TransactionsFragment } from "../../../../graphql/graphql";
-	import { graphqlGetTransactionsByAccount } from "../../../../graphql/graphqlApi";
+	import { graphqlGetFilteredTransactionsWithAggregates, graphqlGetTransactionsByAccount } from "../../../../graphql/graphqlApi";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
   onMount(() => getTransactionsByAccount(Number($page.params.accountId)))
@@ -37,7 +37,7 @@
   }
   
   async function getTransactionsByAccount(accountId: number) {
-    const response = await graphqlGetTransactionsByAccount({object: accountId})
+    const response = await graphqlGetFilteredTransactionsWithAggregates({where: {"accountId": {"_eq": accountId}}})
     if (response.errors) {
       response.errors.map((error: any) => console.log(error.message))
       alert('Account transactions failed to load.')
@@ -56,8 +56,8 @@
       <option value={status} class="capitalize">{status}</option>
     {/each}
   </select>
-  <input class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Transaction Date"/>
-  <input class="h-10 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category" />
+  <input class="h-10 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Transaction Date"/>
+  <input class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category" />
 </div>
 {#if transactions.length > 0}
   <TransactionTable {transactions} />
