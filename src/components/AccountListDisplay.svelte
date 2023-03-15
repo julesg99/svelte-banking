@@ -7,7 +7,9 @@
 
   let filter: string
   $: {
-    filteredAccounts = accounts.filter((acct) => acct.name.includes(filter))
+    filteredAccounts = accounts.filter((acct) => 
+      (acct.name).includes(filter)
+    )
     if (filteredAccounts.length > 0) listToDisplay = filteredAccounts
     else listToDisplay = accounts
   }

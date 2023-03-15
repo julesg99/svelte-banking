@@ -9,7 +9,7 @@
   function makeCrumbs() {
     let route = $page.route.id?.split('/')
     route?.splice(0,1)
-    console.log(route)
+    // console.log(route)
   }
 
   let breadCrumbs: breadCrumbInfo[]

@@ -1,5 +1,5 @@
 <script lang='ts'>
-  import AccountDisplay from "../../components/AccountDisplay.svelte";
+  import AccountDisplay from "../../components/AccountListDisplay.svelte";
 	import { accountStore, breadCrumbStore } from "../../store";
 
   $: accounts = $accountStore

@@ -14,6 +14,15 @@
 
   $: accounts = $accountStore
 
+  let statusTypes: string[] = ['all']
+  $: {
+    let status: string[] = []
+    transactions.flatMap(trans => {
+      if (!status.includes(trans.status)) status.push(trans.status)
+    })
+    statusTypes = [...statusTypes, ...status]
+  }
+
   let accountName: string
   let accountId: string
   $: {
@@ -41,13 +50,14 @@
 
 <AccountAggregatesHeader aggregates={accountAggregates}/>
 <div class="">
-  <input class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category"/>
-  <select class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm">
-    <option>Select Status Filter</option>
-    <option>All</option>
-    <option>Completed</option>
-    <option>Pending</option>
+  <select class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm capitalize">
+    <option>Status Filter</option>
+    {#each statusTypes as status, index}
+      <option value={status} class="capitalize">{status}</option>
+    {/each}
   </select>
+  <input class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Transaction Date"/>
+  <input class="h-10 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category" />
 </div>
 {#if transactions.length > 0}
   <TransactionTable {transactions} />
