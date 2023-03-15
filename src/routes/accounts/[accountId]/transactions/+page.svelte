@@ -3,13 +3,13 @@
 	import { onMount } from "svelte";
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
 	import TransactionTable from "../../../../components/TransactionTable.svelte";
-	import type { GetTransactionByAccountWithAggregatesQuery, TransactionsFragment } from "../../../../graphql/graphql";
-	import { graphqlGetFilteredTransactionsWithAggregates, graphqlGetTransactionsByAccount } from "../../../../graphql/graphqlApi";
+	import type { GetFilteredTransactionQuery, TransactionsFragment } from "../../../../graphql/graphql";
+	import { graphqlGetFilteredTransactionsWithAggregates } from "../../../../graphql/graphqlApi";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
   onMount(() => getTransactionsByAccount(Number($page.params.accountId)))
 
-  let accountAggregates: GetTransactionByAccountWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
+  let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   let transactions: TransactionsFragment[] = []
 
   $: accounts = $accountStore

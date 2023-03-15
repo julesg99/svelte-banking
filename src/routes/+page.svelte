@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { graphqlGetTransactionSumByStatus, graphqlGetTransactionsWithAggregates } from "../graphql/graphqlApi";
+	import { graphqlGetFilteredTransactionsWithAggregates, graphqlGetTransactionsWithAggregates } from "../graphql/graphqlApi";
 	import { breadCrumbStore, transactionStore } from "../store";
-	import type { GetTransactionSumByStatusQuery, GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
+	import type { GetFilteredTransactionQuery, GetTransactionsWithAggregatesQuery } from "../graphql/graphql";
 	import TransactionTable from "../components/TransactionTable.svelte";
 	import GeneralAggregatesHeader from "../components/GeneralAggregatesHeader.svelte";
 
   let transactionAggregates: GetTransactionsWithAggregatesQuery["Transactions_aggregate"]["aggregate"]
-  $: sumByStatus = new Map<string, GetTransactionSumByStatusQuery["Transactions_aggregate"]["aggregate"]>()
+  $: sumByStatus = new Map<string, GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]>()
   $: transactions = $transactionStore
   $breadCrumbStore = [{ name: 'home', url: '/' }]
 
@@ -29,7 +29,7 @@
   }
 
   async function getTransactionSumByStatus(status: string) {
-    const response = await graphqlGetTransactionSumByStatus({status: status})
+    const response = await graphqlGetFilteredTransactionsWithAggregates({where: {"status": {"_eq": status}}})
     if (response.errors) {
       response.errors.map((error: any) => console.log(error.message))
       alert('Server to load transactions.')

@@ -1094,31 +1094,12 @@ export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAccountsQuery = { __typename?: 'query_root', Accounts: Array<{ __typename?: 'Accounts', id: number, name: string }>, Accounts_aggregate: { __typename?: 'Accounts_aggregate', aggregate?: { __typename?: 'Accounts_aggregate_fields', count: number } | null } };
 
-export type GetTransactionSumByStatusQueryVariables = Exact<{
-  status?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type GetTransactionSumByStatusQuery = { __typename?: 'query_root', Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null } | null } };
-
 export type GetFilteredTransactionQueryVariables = Exact<{
   where: Transactions_Bool_Exp;
 }>;
 
 
 export type GetFilteredTransactionQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }>, Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null, max?: { __typename?: 'Transactions_max_fields', amount?: any | null } | null } | null } };
-
-export type GetTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTransactionsQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }> };
-
-export type GetTransactionByAccountWithAggregatesQueryVariables = Exact<{
-  object: Scalars['Int'];
-}>;
-
-
-export type GetTransactionByAccountWithAggregatesQuery = { __typename?: 'query_root', Transactions: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }>, Transactions_aggregate: { __typename?: 'Transactions_aggregate', aggregate?: { __typename?: 'Transactions_aggregate_fields', count: number, sum?: { __typename?: 'Transactions_sum_fields', amount?: any | null } | null, max?: { __typename?: 'Transactions_max_fields', amount?: any | null } | null } | null } };
 
 export type GetTransactionsWithAggregatesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1170,49 +1151,12 @@ export const GetAccountsDocument = gql`
   }
 }
     ${AccountsFragmentDoc}`;
-export const GetTransactionSumByStatusDocument = gql`
-    query GetTransactionSumByStatus($status: String) {
-  Transactions_aggregate(where: {status: {_eq: $status}}) {
-    aggregate {
-      count
-      sum {
-        amount
-      }
-    }
-  }
-}
-    `;
 export const GetFilteredTransactionDocument = gql`
     query getFilteredTransaction($where: Transactions_bool_exp!) {
   Transactions(where: $where) {
     ...transactions
   }
   Transactions_aggregate(where: $where) {
-    aggregate {
-      count
-      sum {
-        amount
-      }
-      max {
-        amount
-      }
-    }
-  }
-}
-    ${TransactionsFragmentDoc}`;
-export const GetTransactionsDocument = gql`
-    query getTransactions {
-  Transactions {
-    ...transactions
-  }
-}
-    ${TransactionsFragmentDoc}`;
-export const GetTransactionByAccountWithAggregatesDocument = gql`
-    query getTransactionByAccountWithAggregates($object: Int!) {
-  Transactions(where: {accountId: {_eq: $object}}) {
-    ...transactions
-  }
-  Transactions_aggregate(where: {Account: {id: {_eq: $object}}}) {
     aggregate {
       count
       sum {
@@ -1252,17 +1196,8 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     getAccounts(variables?: GetAccountsQueryVariables, options?: C): Promise<GetAccountsQuery> {
       return requester<GetAccountsQuery, GetAccountsQueryVariables>(GetAccountsDocument, variables, options) as Promise<GetAccountsQuery>;
     },
-    GetTransactionSumByStatus(variables?: GetTransactionSumByStatusQueryVariables, options?: C): Promise<GetTransactionSumByStatusQuery> {
-      return requester<GetTransactionSumByStatusQuery, GetTransactionSumByStatusQueryVariables>(GetTransactionSumByStatusDocument, variables, options) as Promise<GetTransactionSumByStatusQuery>;
-    },
     getFilteredTransaction(variables: GetFilteredTransactionQueryVariables, options?: C): Promise<GetFilteredTransactionQuery> {
       return requester<GetFilteredTransactionQuery, GetFilteredTransactionQueryVariables>(GetFilteredTransactionDocument, variables, options) as Promise<GetFilteredTransactionQuery>;
-    },
-    getTransactions(variables?: GetTransactionsQueryVariables, options?: C): Promise<GetTransactionsQuery> {
-      return requester<GetTransactionsQuery, GetTransactionsQueryVariables>(GetTransactionsDocument, variables, options) as Promise<GetTransactionsQuery>;
-    },
-    getTransactionByAccountWithAggregates(variables: GetTransactionByAccountWithAggregatesQueryVariables, options?: C): Promise<GetTransactionByAccountWithAggregatesQuery> {
-      return requester<GetTransactionByAccountWithAggregatesQuery, GetTransactionByAccountWithAggregatesQueryVariables>(GetTransactionByAccountWithAggregatesDocument, variables, options) as Promise<GetTransactionByAccountWithAggregatesQuery>;
     },
     getTransactionsWithAggregates(variables?: GetTransactionsWithAggregatesQueryVariables, options?: C): Promise<GetTransactionsWithAggregatesQuery> {
       return requester<GetTransactionsWithAggregatesQuery, GetTransactionsWithAggregatesQueryVariables>(GetTransactionsWithAggregatesDocument, variables, options) as Promise<GetTransactionsWithAggregatesQuery>;

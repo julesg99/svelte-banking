@@ -1,5 +1,0 @@
-query getTransactions {
-  Transactions {
-    ...transactions
-  }
-}

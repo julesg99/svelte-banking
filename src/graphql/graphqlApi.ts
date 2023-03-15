@@ -1,12 +1,10 @@
 import { env } from "$env/dynamic/public";
 import { print } from 'graphql';
 import { 
-  GetTransactionsDocument, type GetTransactionsQuery, type GetTransactionsQueryVariables,
   InsertTransactionDocument, type InsertTransactionMutation, type InsertTransactionMutationVariables,
   GetTransactionsWithAggregatesDocument, type GetTransactionsWithAggregatesQueryVariables, type GetTransactionsWithAggregatesQuery,
-  GetTransactionSumByStatusDocument, type GetTransactionSumByStatusQueryVariables, type GetTransactionSumByStatusQuery,
   GetAccountsDocument, type GetAccountsQueryVariables, type GetAccountsQuery,
-  GetTransactionByAccountWithAggregatesDocument, type GetTransactionByAccountWithAggregatesQueryVariables, type GetTransactionByAccountWithAggregatesQuery, type GetFilteredTransactionQueryVariables, GetFilteredTransactionDocument, type GetFilteredTransactionQuery 
+  GetFilteredTransactionDocument, type GetFilteredTransactionQueryVariables, type GetFilteredTransactionQuery 
 } from "./graphql";
 
 const headers = {
@@ -19,18 +17,7 @@ type GraphQLResponse<T> = {
   data: T;
 }
 
-// GETTERS
-export async function graphqlGetTransactions(variables: GetTransactionsQueryVariables) {
-  const request = await fetch(env.PUBLIC_HASURA_URL, {
-    method: 'POST',
-    headers, 
-    body: JSON.stringify({
-      query: print(GetTransactionsDocument),
-      variables
-    })
-  })
-  return await request.json() as GraphQLResponse<GetTransactionsQuery>;
-}
+// GETTERS //
 
 export async function graphqlGetTransactionsWithAggregates(variables: GetTransactionsWithAggregatesQueryVariables) {
   const request = await fetch(env.PUBLIC_HASURA_URL, {
@@ -42,30 +29,6 @@ export async function graphqlGetTransactionsWithAggregates(variables: GetTransac
     })
   })
   return await request.json() as GraphQLResponse<GetTransactionsWithAggregatesQuery>
-}
-
-export async function graphqlGetTransactionSumByStatus(variables: GetTransactionSumByStatusQueryVariables) {
-  const request = await fetch(env.PUBLIC_HASURA_URL, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      query: print(GetTransactionSumByStatusDocument),
-      variables
-    })
-  })
-  return await request.json() as GraphQLResponse<GetTransactionSumByStatusQuery>
-}
-
-export async function graphqlGetTransactionsByAccount(variables: GetTransactionByAccountWithAggregatesQueryVariables) {
-  const request = await fetch(env.PUBLIC_HASURA_URL, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      query: print(GetTransactionByAccountWithAggregatesDocument),
-      variables
-    })
-  })
-  return await request.json() as GraphQLResponse<GetTransactionByAccountWithAggregatesQuery>
 }
 
 export async function graphqlGetAccounts(variables: GetAccountsQueryVariables) {
@@ -92,7 +55,8 @@ export async function graphqlGetFilteredTransactionsWithAggregates(variables: Ge
   return await request.json() as GraphQLResponse<GetFilteredTransactionQuery>
 }
 
-// SETTERS
+// SETTERS //
+
 export async function graphqlInsertTransactions(variables: InsertTransactionMutationVariables) {
   const request = await fetch(env.PUBLIC_HASURA_URL, {
     method: 'POST',
