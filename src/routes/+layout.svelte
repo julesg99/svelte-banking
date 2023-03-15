@@ -6,30 +6,20 @@
 	import GenerateFakeTransaction from '../components/GenerateFakeTransaction.svelte';
 	import type { GetAccountsQuery } from '../graphql/graphql';
 	import { graphqlGetAccounts } from '../graphql/graphqlApi';
+	import { getAccounts } from '../services/getData';
 	import { accountStore } from '../store';
 
-  let accountAggregates: GetAccountsQuery["Accounts_aggregate"]["aggregate"]
   $: accounts = $accountStore
+  
+  onMount(async () => {
+    let response = await getAccounts()
+    $accountStore = response.accounts
+  })
 
   let pageTitle: string = 'Home'
   $: {
     if ($page.route.id === '/') pageTitle='Home'
     else pageTitle = $page.route.id?.substring(1) ?? 'Error'
-  }
-
-  onMount(() => {
-    loadAccounts()
-  })
-
-  async function loadAccounts() {
-    const response = await graphqlGetAccounts({})
-    if (response.errors){
-      response.errors.map((error: any) => console.log(error.message))
-      alert('Server failed to load accounts.')
-    } else {
-      $accountStore = response.data.Accounts
-      accountAggregates = response.data.Accounts_aggregate.aggregate
-    }
   }
 
 </script>

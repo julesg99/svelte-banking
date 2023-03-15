@@ -5,7 +5,7 @@
 	import type { GetFilteredTransactionQuery } from "../graphql/graphql";
 	import TransactionTable from "../components/TransactionTable.svelte";
 	import GeneralAggregatesHeader from "../components/GeneralAggregatesHeader.svelte";
-	import { getFilteredTransactionsWithAggregates } from "../services/getTransactions";
+	import { getFilteredTransactionsWithAggregates } from "../services/getData";
 
   let transactionAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]>()

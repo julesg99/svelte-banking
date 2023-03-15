@@ -4,7 +4,7 @@
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
 	import TransactionTable from "../../../../components/TransactionTable.svelte";
 	import type { GetFilteredTransactionQuery, TransactionsFragment } from "../../../../graphql/graphql";
-	import { getFilteredTransactionsWithAggregates } from "../../../../services/getTransactions";
+	import { getFilteredTransactionsWithAggregates } from "../../../../services/getData";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
   onMount(async () => {
