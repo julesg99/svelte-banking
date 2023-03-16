@@ -34,7 +34,7 @@
     {#if transaction.notes} <td>{transaction.notes}</td>
     {:else} <td></td>
     {/if}
-    <td>
+    <td class="flex justify-end">
       <button on:click={() => isEdit = true}
         class="h-6 px-2 m-1 bg-cyan-500 outline outline-1 outline-gray-300 rounded-lg hover:bg-cyan-400 hover:outline-cyan-100"
       >Edit</button>

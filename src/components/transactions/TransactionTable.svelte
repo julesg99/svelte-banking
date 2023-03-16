@@ -43,8 +43,8 @@
   })
 
   async function saveChanges(event: any) {
+    delete event.detail.Account
     let transaction: Transactions_Set_Input = event.detail
-    delete transaction.Account
     const response = await graphqlUpdateTransactions({id: event.detail.id, input: transaction})
     if (response.errors) {
       console.log('update transaction event', transaction)
@@ -69,7 +69,7 @@
 
 </script>
 
-<div class="">
+<div class="mx-2 py-2 bg-gray-100 border border-1 border-gray-300 rounded">
   <TransactionsFilters bind:filters {statusTypes}/>
 
   <table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded shadow-lg">

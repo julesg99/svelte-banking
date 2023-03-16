@@ -4,9 +4,9 @@
   export let aggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
 </script>
 
-<div class="flex justify-center w-[98%] space-x-10 outline outline-1 outline-gray-500 m-3 p-3 rounded text-center shadow-md">
+<div class="flex justify-center w-[98%] space-x-10 outline outline-1 outline-gray-300 bg-gray-100 m-3 p-3 rounded text-center shadow-md">
 
-  <divider class="border border-1 border-gray-500"/>
+  <divider class="border border-1 border-gray-300"/>
 
   <div>
     <p># Transactions:</p>
@@ -20,7 +20,7 @@
       <p>$0.00</p> 
     {/if}
   </div>
-  <divider class="border border-1 border-gray-500" />
+  <divider class="border border-1 border-gray-300" />
 
   <div>
     <p>Largest Purchase:</p>
@@ -30,6 +30,6 @@
     <p>$0.00</p>
   {/if}
   </div>
-  <divider class="border border-1 border-gray-500" />
+  <divider class="border border-1 border-gray-300" />
 
 </div>
