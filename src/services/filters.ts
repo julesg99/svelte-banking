@@ -18,7 +18,7 @@ export async function filterTransactions(filters: transactionFilters, statusType
     where.status = { _eq: filters.status }
   } 
   if (filters.date) {
-    where.transactionDate = { _eq: filters.date }
+    where.transactionDate = { _gte: filters.date }
   }
   if (filters.category) {
     where.category = { _eq: filters.category.toLowerCase()}

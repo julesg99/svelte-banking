@@ -31,4 +31,9 @@
   <input bind:value={categoryFilter} 
     class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-300 bg-gray-50 shadow-md" placeholder="Filter by Category" 
   />
+  <button on:click={() => {categoryFilter = ''; statusFilter = ''; dateFilter = new Date('999-01-01')}}
+    class="hover:text-red-500 hover:bg-gray-200 hover:shadow-md hover:outline outline-1 outline-red-500 rounded-lg p-1"
+  >
+    Clear Filters
+  </button>
 </div>

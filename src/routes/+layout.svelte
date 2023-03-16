@@ -42,12 +42,12 @@
 			<div class="ml-2 font-bold">Hey Integritier!</div>
 		</div>
 
-    <div class="m-1 mt-3 p-2 rounded-lg border border-cyan-500">
+    <div class="m-1 mt-3 p-2 rounded-lg border border-cyan-500 shadow-md">
       <a href='/' class="w-full text-cyan-600 underline underline-offset-2 decoration-1 hover:text-purple-500"><p>Home</p></a>
       <a href='/accounts' class="w-full text-cyan-600 underline underline-offset-2 decoration-1 hover:text-purple-500"><p>Accounts</p></a>
     </div>
 
-		<div class="mt-4"><GenerateFakeTransaction {accounts} /></div>
+		<GenerateFakeTransaction {accounts} />
 	</div>
 	<div class="w-full">
 		<BreadCrumbs />
