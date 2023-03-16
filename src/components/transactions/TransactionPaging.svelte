@@ -19,11 +19,7 @@
     Prev
   </button>
 
-  <button on:click={() => {
-      console.log(totalTransactions)
-      if (currentPage+pageLimit < totalTransactions)currentPage+=pageLimit
-    }
-  }
+  <button on:click={() => { if (currentPage+pageLimit < totalTransactions)currentPage+=pageLimit }}
     class="h-8 px-2 m-2 bg-cyan-500 outline outline-1 outline-gray-300 rounded-lg hover:bg-cyan-400 hover:outline-cyan-100 shadow-md"
   >
     Next

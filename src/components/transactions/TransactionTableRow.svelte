@@ -7,14 +7,16 @@
   const dispatch = createEventDispatcher();
 
   export let transaction: TransactionsFragment
-
+  let changedTransaction: TransactionsFragment = transaction
+  let changedProperties: any = {}
   let isEdit: boolean = false
+
   function handleSubmitUpdate() {
     // changedProperties.forEach((prop) => ) 
     dispatch('save', {"id": transaction.id, "changedProperties": changedProperties})
     isEdit = false
   }
-  let changedProperties: any = {}
+
 </script>
 
 {#if !isEdit}
@@ -49,32 +51,48 @@
     {/if}
     <td class="capitalize px-2">{transaction.status}</td>
     <td class="">
-      <input bind:value={transaction.amount} on:change={() => changedProperties.status = transaction.amount}
+      <input bind:value={changedTransaction.amount} on:change={() => changedProperties.status = changedTransaction.amount}
         class="w-24 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input type="date" bind:value={transaction.transactionDate} on:change={() => changedProperties.transactionDate = transaction.transactionDate}
+      <input type="date" bind:value={changedTransaction.transactionDate} 
+        on:change={() => {
+          if (changedTransaction.transactionDate > changedTransaction.postDate) {
+            alert("Transaction date must be after Post date.")
+            changedTransaction.transactionDate = transaction.transactionDate
+          } else {
+            changedProperties.transactionDate = changedTransaction.transactionDate
+          }
+        }}
         class="w-32 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input type="date" bind:value={transaction.postDate} on:change={() => changedProperties.postDate = transaction.postDate}
+      <input type="date" bind:value={changedTransaction.postDate} 
+        on:change={() => {
+          if (changedTransaction.transactionDate > changedTransaction.postDate) {
+            alert("Transaction date must be after Post date.")
+            changedTransaction.postDate = transaction.postDate
+          } else {
+            changedProperties.postDate = changedTransaction.postDate
+          }
+        }}
         class="w-32 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input bind:value={transaction.category} on:change={() => changedProperties.category = transaction.category}
+      <input bind:value={changedTransaction.category} on:change={() => changedProperties.category = changedTransaction.category}
         class="w-40 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input bind:value={transaction.description} on:change={() => changedProperties.description = transaction.description}
+      <input bind:value={changedTransaction.description} on:change={() => changedProperties.description = changedTransaction.description}
         class="w-ful m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input bind:value={transaction.notes} placeholder="notes" on:change={() => changedProperties.notes = transaction.notes}
+      <input bind:value={changedTransaction.notes} placeholder="notes" on:change={() => changedProperties.notes = changedTransaction.notes}
         class="m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
@@ -82,7 +100,7 @@
       <button on:click={handleSubmitUpdate}
         class="h-6 px-2 m-1 bg-cyan-500 outline outline-1 outline-gray-300 rounded-lg hover:bg-cyan-400 hover:outline-cyan-100"
       >Save</button>
-      <button on:click={() => isEdit = false}
+      <button on:click={() => { isEdit = false; changedTransaction = transaction; }}
         class="h-6 px-2 m-1 bg-red-300 outline outline-1 outline-red-500 rounded-lg hover:bg-red-400 hover:outline-red-600"
       >Cancel</button>
     </td>
