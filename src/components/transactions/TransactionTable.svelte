@@ -85,5 +85,5 @@
       <TransactionTableRow transaction={entry} on:save={saveChanges}/>
     {/each}
   </table>
-  <TransactionPaging bind:currentPage bind:pageLimit {pageOptions} />
+  <TransactionPaging bind:currentPage bind:pageLimit {pageOptions} totalTransactions={accountAggregates?.count ?? transactions.length}/>
 </div>
