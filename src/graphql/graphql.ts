@@ -1089,6 +1089,14 @@ export type InsertTransactionMutationVariables = Exact<{
 
 export type InsertTransactionMutation = { __typename?: 'mutation_root', insert_Transactions?: { __typename?: 'Transactions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } }> } | null };
 
+export type UpdateTransactionMutationVariables = Exact<{
+  id: Scalars['Int'];
+  input: Transactions_Set_Input;
+}>;
+
+
+export type UpdateTransactionMutation = { __typename?: 'mutation_root', update_Transactions_by_pk?: { __typename?: 'Transactions', amount: any, category: string, createdAt: any, description: string, id: number, postDate?: any | null, status: string, transactionDate: any, updatedAt: any, notes?: string | null, Account: { __typename?: 'Accounts', id: number, name: string } } | null };
+
 export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1137,6 +1145,13 @@ export const InsertTransactionDocument = gql`
   }
 }
     ${TransactionsFragmentDoc}`;
+export const UpdateTransactionDocument = gql`
+    mutation updateTransaction($id: Int!, $input: Transactions_set_input!) {
+  update_Transactions_by_pk(pk_columns: {id: $id}, _set: $input) {
+    ...transactions
+  }
+}
+    ${TransactionsFragmentDoc}`;
 export const GetAccountsDocument = gql`
     query getAccounts {
   Accounts {
@@ -1177,6 +1192,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
     insertTransaction(variables: InsertTransactionMutationVariables, options?: C): Promise<InsertTransactionMutation> {
       return requester<InsertTransactionMutation, InsertTransactionMutationVariables>(InsertTransactionDocument, variables, options) as Promise<InsertTransactionMutation>;
+    },
+    updateTransaction(variables: UpdateTransactionMutationVariables, options?: C): Promise<UpdateTransactionMutation> {
+      return requester<UpdateTransactionMutation, UpdateTransactionMutationVariables>(UpdateTransactionDocument, variables, options) as Promise<UpdateTransactionMutation>;
     },
     getAccounts(variables?: GetAccountsQueryVariables, options?: C): Promise<GetAccountsQuery> {
       return requester<GetAccountsQuery, GetAccountsQueryVariables>(GetAccountsDocument, variables, options) as Promise<GetAccountsQuery>;

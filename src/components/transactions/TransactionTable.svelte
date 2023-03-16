@@ -1,7 +1,8 @@
 <script lang='ts'>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import type { GetFilteredTransactionQuery, TransactionsFragment } from '../../graphql/graphql';
+	import type { GetFilteredTransactionQuery, TransactionsFragment, Transactions_Set_Input } from '../../graphql/graphql';
+	import { graphqlUpdateTransactions } from '../../graphql/graphqlApi';
 	import { filterTransactions, type transactionFilters } from '../../services/filters';
 	import { getFilteredTransactionsWithAggregates } from '../../services/getData';
 	import TransactionPaging from './TransactionPaging.svelte';
@@ -41,6 +42,20 @@
     transactions = response.transactions
   })
 
+  async function saveChanges(event: any) {
+    let transaction: Transactions_Set_Input = event.detail
+    delete transaction.Account
+    const response = await graphqlUpdateTransactions({id: event.detail.id, input: transaction})
+    if (response.errors) {
+      console.log('update transaction event', transaction)
+      console.log('response errors')
+      response.errors.map((error: any) => console.log(error.message))
+    } else {
+      console.log('response', response.data.update_Transactions_by_pk)
+    }
+    changeFilter()
+  }
+
   async function changeFilter() {
     let response = await filterTransactions(filters, statusTypes, accountId, pageLimit, currentPage)
     accountAggregates = response.accountAggregates
@@ -71,7 +86,7 @@
       <td class="w-1/5">Notes</td>
     </tr>
     {#each transactions as entry (entry.id)}
-      <TransactionTableRow transaction={entry}/>
+      <TransactionTableRow transaction={entry} on:save={saveChanges}/>
     {/each}
   </table>
   <TransactionPaging bind:currentPage bind:pageLimit {pageOptions} />

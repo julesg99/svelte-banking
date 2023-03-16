@@ -3,7 +3,7 @@ import { print } from 'graphql';
 import { 
   InsertTransactionDocument, type InsertTransactionMutation, type InsertTransactionMutationVariables,
   GetAccountsDocument, type GetAccountsQueryVariables, type GetAccountsQuery,
-  GetFilteredTransactionDocument, type GetFilteredTransactionQueryVariables, type GetFilteredTransactionQuery 
+  GetFilteredTransactionDocument, type GetFilteredTransactionQueryVariables, type GetFilteredTransactionQuery, UpdateTransactionDocument, type UpdateTransactionMutationVariables, type UpdateTransactionMutation 
 } from "./graphql";
 
 const headers = {
@@ -53,5 +53,17 @@ export async function graphqlInsertTransactions(variables: InsertTransactionMuta
       variables
     })
   })
-  return await request.json() as GraphQLResponse<InsertTransactionMutation>;
+  return await request.json() as GraphQLResponse<InsertTransactionMutation>
+}
+
+export async function graphqlUpdateTransactions(variables: UpdateTransactionMutationVariables) {
+  const request = await fetch(env.PUBLIC_HASURA_URL, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      query:print(UpdateTransactionDocument),
+      variables
+    })
+  })
+  return await request.json() as GraphQLResponse<UpdateTransactionMutation>
 }

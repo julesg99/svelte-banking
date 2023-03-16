@@ -1,0 +1,5 @@
+mutation updateTransaction($id: Int!, $input: Transactions_set_input!) {
+  update_Transactions_by_pk(pk_columns: {id: $id}, _set: $input) {
+    ...transactions
+  }
+}
