@@ -1,25 +1,16 @@
 <script lang='ts'>
 	import { page } from "$app/stores";
-	import { onMount } from "svelte";
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
-	import TransactionsFilters from "../../../../components/TransactionsFilters.svelte";
 	import TransactionTable from "../../../../components/TransactionTable.svelte";
 	import type { GetFilteredTransactionQuery, TransactionsFragment } from "../../../../graphql/graphql";
-	import { getFilteredTransactionsWithAggregates } from "../../../../services/getData";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
   $: accounts = $accountStore
-  let accountId: string
+  let accountId: string = $page.params.accountId
   let accountName: string
   let transactions: TransactionsFragment[] 
   $: transactions = []
   let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
-
-  onMount(async () => {
-    let response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": Number($page.params.accountId)}})
-    accountAggregates = response.accountAggregates
-    transactions = response.transactions
-  })
 
   $: {
     accountId = $page.params.accountId
@@ -35,11 +26,4 @@
 </script>
 
 <AccountAggregatesHeader aggregates={accountAggregates}/>
-<TransactionsFilters bind:transactions {accountId}/>
-{#if transactions.length > 0}
-  <TransactionTable {transactions} />
-{:else}
-  <div class="flex justify-center mt-10">
-    <p class="font-bold text-cyan-500 text-xl">Huh? You don't have any transactions yet? Get to work!</p>
-  </div>
-{/if}
+<TransactionTable {accountId} />

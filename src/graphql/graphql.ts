@@ -1096,6 +1096,8 @@ export type GetAccountsQuery = { __typename?: 'query_root', Accounts: Array<{ __
 
 export type GetFilteredTransactionQueryVariables = Exact<{
   where: Transactions_Bool_Exp;
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
   dateOrder?: InputMaybe<Order_By>;
 }>;
 
@@ -1148,8 +1150,13 @@ export const GetAccountsDocument = gql`
 }
     ${AccountsFragmentDoc}`;
 export const GetFilteredTransactionDocument = gql`
-    query getFilteredTransaction($where: Transactions_bool_exp!, $dateOrder: order_by) {
-  Transactions(where: $where, order_by: {transactionDate: $dateOrder}) {
+    query getFilteredTransaction($where: Transactions_bool_exp!, $limit: Int!, $offset: Int!, $dateOrder: order_by) {
+  Transactions(
+    order_by: {transactionDate: $dateOrder}
+    where: $where
+    limit: $limit
+    offset: $offset
+  ) {
     ...transactions
   }
   Transactions_aggregate(where: $where) {

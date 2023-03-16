@@ -1,5 +1,10 @@
-query getFilteredTransaction($where: Transactions_bool_exp!, $dateOrder: order_by) {
-  Transactions(where: $where, order_by: {transactionDate: $dateOrder}) {
+query getFilteredTransaction(
+  $where: Transactions_bool_exp!, 
+  $limit: Int!, 
+  $offset: Int!,
+  $dateOrder: order_by
+) {
+  Transactions(order_by: {transactionDate: $dateOrder}, where: $where, limit: $limit, offset: $offset) {
     ...transactions
   }
   Transactions_aggregate(where: $where) {

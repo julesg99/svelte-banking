@@ -4,7 +4,7 @@
 	import { breadCrumbStore, type breadCrumbInfo } from "../store";
 
   let testCrumbs: breadCrumbInfo[]
-  onMount(() => makeCrumbs())
+  // onMount(() => makeCrumbs())
 
   function makeCrumbs() {
     let route = $page.route.id?.split('/')
