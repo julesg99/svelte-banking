@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import type { transactionFilters} from "../services/filters";
+	import type { transactionFilters } from "../../services/filters";
 
   export let filters: transactionFilters
   export let statusTypes: string[]

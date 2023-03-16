@@ -1,11 +1,12 @@
 <script lang='ts'>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-  import Time from 'svelte-time';
-	import type { GetFilteredTransactionQuery, TransactionsFragment } from '../graphql/graphql';
-	import { filterTransactions, type transactionFilters } from '../services/filters';
-	import { getFilteredTransactionsWithAggregates } from '../services/getData';
+	import type { GetFilteredTransactionQuery, TransactionsFragment } from '../../graphql/graphql';
+	import { filterTransactions, type transactionFilters } from '../../services/filters';
+	import { getFilteredTransactionsWithAggregates } from '../../services/getData';
+	import TransactionPaging from './TransactionPaging.svelte';
 	import TransactionsFilters from './TransactionsFilters.svelte';
+	import TransactionTableRow from './TransactionTableRow.svelte';
 
   export let accountId: string = ''
 
@@ -33,7 +34,6 @@
   //   else isHidden = false
   // }
   // let isHidden = false
-
 
   onMount(async () => {
     let response = await getFilteredTransactionsWithAggregates({"accountId": {"_eq": +(accountId)}}, pageLimit, currentPage)
@@ -71,46 +71,8 @@
       <td class="w-1/5">Notes</td>
     </tr>
     {#each transactions as entry (entry.id)}
-      <tr class='text-center border-t border-t-1'>
-        {#if (!$page.params.accountId)}
-          <td>{entry.Account.name}</td>
-        {/if}
-        <td class="capitalize px-2">{entry.status}</td>
-        <td class="px-2">{entry.amount}</td>
-        <td><Time timestamp={entry.transactionDate}/></td>
-  
-        {#if entry.postDate} <td><Time timestamp={entry.postDate}/></td>
-        {:else} <td></td>
-        {/if}
-  
-        <td class="capitalize">{entry.category}</td>
-        <td>{entry.description}</td>
-  
-        {#if entry.notes} <td>{entry.notes}</td>
-        {:else} <td></td>
-        {/if}
-      </tr>
+      <TransactionTableRow transaction={entry}/>
     {/each}
   </table>
-  <div class="flex mx-4">
-    <p class="my-3">Page: {(currentPage/pageLimit)+1}</p>
-    <button on:click={() => {if (currentPage > 0) {currentPage-=10}}}
-      class="h-8 px-2 m-2 bg-cyan-500 outline outline-1 outline-gray-300 rounded-lg hover:bg-cyan-400 hover:outline-cyan-100"
-    >
-      Prev
-    </button>
-    <button on:click={() => {currentPage+=10}}
-      class="h-8 px-2 m-2 bg-cyan-500 outline outline-1 outline-gray-300 rounded-lg hover:bg-cyan-400 hover:outline-cyan-100"
-    >
-      Next
-    </button>  
-    <p class="w-24 text-sm ml-5">Transactions per Page</p>
-    <select bind:value={pageLimit}
-      class="h-fit w-fit p-1 my-1 rounded-lg outline outline-1 outline-gray-400 shadow-sm"
-    >
-      {#each pageOptions as pg, index}
-        <option value={pg}>{pg}</option>
-      {/each}
-    </select>
-  </div>
+  <TransactionPaging bind:currentPage bind:pageLimit {pageOptions} />
 </div>

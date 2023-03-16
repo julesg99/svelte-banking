@@ -4,8 +4,6 @@
 	import '../app.css';
 	import BreadCrumbs from '../components/BreadCrumbs.svelte';
 	import GenerateFakeTransaction from '../components/GenerateFakeTransaction.svelte';
-	import type { GetAccountsQuery } from '../graphql/graphql';
-	import { graphqlGetAccounts } from '../graphql/graphqlApi';
 	import { getAccounts } from '../services/getData';
 	import { accountStore } from '../store';
 

@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import { page } from "$app/stores";
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
-	import TransactionTable from "../../../../components/TransactionTable.svelte";
+	import TransactionTable from "../../../../components/transactions/TransactionTable.svelte";
 	import type { GetFilteredTransactionQuery, TransactionsFragment } from "../../../../graphql/graphql";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 

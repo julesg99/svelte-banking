@@ -2,13 +2,12 @@
 	import { onMount } from "svelte";
 	import { breadCrumbStore, transactionStore } from "../store";
 	import type { GetFilteredTransactionQuery } from "../graphql/graphql";
-	import TransactionTable from "../components/TransactionTable.svelte";
+	import TransactionTable from "../components/transactions/TransactionTable.svelte";
 	import GeneralAggregatesHeader from "../components/GeneralAggregatesHeader.svelte";
 	import { getFilteredTransactionsWithAggregates } from "../services/getData";
 
   let transactionAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   $: sumByStatus = new Map<string, GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]>()
-  // $: transactions = $transactionStore
   $breadCrumbStore = [{ name: 'home', url: '/' }]
 
   onMount(async () => {

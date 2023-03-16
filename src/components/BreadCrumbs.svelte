@@ -1,6 +1,6 @@
 <script lang='ts'>
 	import { page } from "$app/stores";
-	import { onMount } from "svelte";
+	// import { onMount } from "svelte";
 	import { breadCrumbStore, type breadCrumbInfo } from "../store";
 
   let testCrumbs: breadCrumbInfo[]
