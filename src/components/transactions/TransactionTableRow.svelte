@@ -16,7 +16,7 @@
 </script>
 
 {#if !isEdit}
-  <tr class='text-center border-t'>
+  <tr class='text-center border-t border-2 border-gray-200'>
     {#if (!$page.params.accountId)}
       <td class="">{transaction.Account.name}</td>
     {/if}
@@ -41,39 +41,39 @@
     </td>
   </tr>
 {:else}
-  <tr class="text-center border-t">
+  <tr class="text-center border-t border-2 border-gray-200">
     {#if (!$page.params.accountId)}
       <td class="">{transaction.Account.name}</td>
     {/if}
     <td class="capitalize px-2">{transaction.status}</td>
     <td class="">
       <input bind:value={transaction.amount}
-        class="w-24 m-1 p-1 outline outline-1 outline-gray-300 rounded"
+        class="w-24 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
       <input type="date" bind:value={transaction.transactionDate}
-        class="w-32 m-1 p-1 outline outline-1 outline-gray-300 rounded"
+        class="w-32 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
       <input type="date" bind:value={transaction.postDate}
-        class="w-32 m-1 p-1 outline outline-1 outline-gray-300 rounded"
+        class="w-32 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
       <input bind:value={transaction.category}
-        class="w-40 m-1 p-1 outline outline-1 outline-gray-300 rounded"
+        class="w-40 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
       <input bind:value={transaction.description}
-        class="w-ful m-1 p-1 outline outline-1 outline-gray-300 rounded"
+        class="w-ful m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
       <input bind:value={transaction.notes} placeholder="notes"
-        class="m-1 p-1 outline outline-1 outline-gray-300 rounded"
+        class="m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>

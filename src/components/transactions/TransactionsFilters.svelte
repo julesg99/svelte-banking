@@ -18,7 +18,7 @@
 
 <div class="">
   <select bind:value={statusFilter} 
-    class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm capitalize"
+    class="h-10 mx-3 p-2 rounded-lg outline outline-1 outline-gray-300 bg-gray-50 shadow-md capitalize"
   >
     <option selected>Status Filter</option>
     {#each statusTypes as status, index}
@@ -26,9 +26,9 @@
     {/each}
   </select>
   <input type='date' bind:value={dateFilter} 
-    class="h-10 p-2 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Transaction Date"
+    class="h-10 p-2 rounded-lg outline outline-1 outline-gray-300 bg-gray-50 shadow-md" placeholder="Filter by Transaction Date"
   />
   <input bind:value={categoryFilter} 
-    class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-400 shadow-sm" placeholder="Filter by Category" 
+    class="h-10 p-2 mx-3 rounded-lg outline outline-1 outline-gray-300 bg-gray-50 shadow-md" placeholder="Filter by Category" 
   />
 </div>
