@@ -43,17 +43,13 @@
   })
 
   async function saveChanges(event: any) {
-    delete event.detail.Account
-    let transaction: Transactions_Set_Input = event.detail
-    const response = await graphqlUpdateTransactions({id: event.detail.id, input: transaction})
+    const response = await graphqlUpdateTransactions({id: event.detail.id, input: event.detail.changedProperties})
     if (response.errors) {
-      console.log('update transaction event', transaction)
       console.log('response errors')
       response.errors.map((error: any) => console.log(error.message))
     } else {
       console.log('response', response.data.update_Transactions_by_pk)
     }
-    changeFilter()
   }
 
   async function changeFilter() {

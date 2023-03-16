@@ -2,7 +2,7 @@
 	import { page } from "$app/stores";
 	import { createEventDispatcher } from "svelte";
 	import Time from "svelte-time/src/Time.svelte";
-	import type { TransactionsFragment } from "../../graphql/graphql";
+	import type { TransactionsFragment, Transactions_Set_Input } from "../../graphql/graphql";
 
   const dispatch = createEventDispatcher();
 
@@ -10,9 +10,11 @@
 
   let isEdit: boolean = false
   function handleSubmitUpdate() {
-    dispatch('save', transaction)
+    // changedProperties.forEach((prop) => ) 
+    dispatch('save', {"id": transaction.id, "changedProperties": changedProperties})
     isEdit = false
   }
+  let changedProperties: any = {}
 </script>
 
 {#if !isEdit}
@@ -47,32 +49,32 @@
     {/if}
     <td class="capitalize px-2">{transaction.status}</td>
     <td class="">
-      <input bind:value={transaction.amount}
+      <input bind:value={transaction.amount} on:change={() => changedProperties.status = transaction.amount}
         class="w-24 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input type="date" bind:value={transaction.transactionDate}
+      <input type="date" bind:value={transaction.transactionDate} on:change={() => changedProperties.transactionDate = transaction.transactionDate}
         class="w-32 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input type="date" bind:value={transaction.postDate}
+      <input type="date" bind:value={transaction.postDate} on:change={() => changedProperties.postDate = transaction.postDate}
         class="w-32 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input bind:value={transaction.category}
+      <input bind:value={transaction.category} on:change={() => changedProperties.category = transaction.category}
         class="w-40 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input bind:value={transaction.description}
+      <input bind:value={transaction.description} on:change={() => changedProperties.description = transaction.description}
         class="w-ful m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
     <td>
-      <input bind:value={transaction.notes} placeholder="notes"
+      <input bind:value={transaction.notes} placeholder="notes" on:change={() => changedProperties.notes = transaction.notes}
         class="m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
       />
     </td>
