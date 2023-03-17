@@ -10,7 +10,6 @@
   let changedTransaction: TransactionsFragment = transaction
   let changedProperties: any = {}
   let isEdit: boolean = false
-  let isValid: boolean = true
 
   function handleSubmitUpdate() {
     dispatch('save', {"id": transaction.id, "changedProperties": changedProperties})
@@ -56,7 +55,10 @@
     <td>
       <input type="date" bind:value={changedTransaction.transactionDate} 
         on:change={() => {
-          if (changedTransaction.transactionDate > changedTransaction.postDate) {
+          if (changedTransaction.transactionDate === '') {
+            alert("All transactions must have a valid Transaction date.")
+            changedTransaction.transactionDate = transaction.transactionDate
+          } else if (changedTransaction.transactionDate > changedTransaction.postDate) {
             alert("Transaction date must be after Post date.")
             changedTransaction.transactionDate = transaction.transactionDate
           } else {
@@ -69,7 +71,11 @@
     <td>
       <input type="date" bind:value={changedTransaction.postDate} 
         on:change={() => {
-          if (changedTransaction.transactionDate > changedTransaction.postDate) {
+          if (changedTransaction.postDate === '') {
+            console.log('cleared post')
+            changedProperties = changedTransaction.postDate
+            changedProperties.status = 'pending'
+          } else if (changedTransaction.transactionDate > changedTransaction.postDate) {
             alert("Transaction date must be after Post date.")
             changedTransaction.postDate = transaction.postDate
           } else {

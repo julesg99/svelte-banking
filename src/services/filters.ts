@@ -1,4 +1,4 @@
-import type { GetFilteredTransactionQuery, TransactionsFragment, Transactions_Bool_Exp } from "../graphql/graphql"
+import type { GetFilteredTransactionQuery, Order_By, TransactionsFragment, Transactions_Bool_Exp } from "../graphql/graphql"
 import { getFilteredTransactionsWithAggregates } from "./getData"
 
 export interface transactionFilters {
@@ -7,7 +7,7 @@ export interface transactionFilters {
   category: string
 }
 
-export async function filterTransactions(filters: transactionFilters, statusTypes: string[], accountId: string, limit: number, offset: number) {
+export async function filterTransactions(filters: transactionFilters, statusTypes: string[], accountId: string, limit: number, offset: number, orderBy?: Order_By) {
   let transactions: TransactionsFragment[] = []
   let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
   let where: Transactions_Bool_Exp = {}
@@ -23,7 +23,7 @@ export async function filterTransactions(filters: transactionFilters, statusType
   if (filters.category) {
     where.category = { _eq: filters.category.toLowerCase()}
   }
-  let response = await getFilteredTransactionsWithAggregates(where, limit, offset)
+  let response = await getFilteredTransactionsWithAggregates(where, limit, offset, orderBy)
   accountAggregates = response.accountAggregates
   transactions = response.transactions
 

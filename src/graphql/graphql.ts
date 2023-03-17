@@ -1106,7 +1106,7 @@ export type GetFilteredTransactionQueryVariables = Exact<{
   where: Transactions_Bool_Exp;
   limit: Scalars['Int'];
   offset: Scalars['Int'];
-  dateOrder?: InputMaybe<Order_By>;
+  amountOrder?: InputMaybe<Order_By>;
 }>;
 
 
@@ -1165,9 +1165,9 @@ export const GetAccountsDocument = gql`
 }
     ${AccountsFragmentDoc}`;
 export const GetFilteredTransactionDocument = gql`
-    query getFilteredTransaction($where: Transactions_bool_exp!, $limit: Int!, $offset: Int!, $dateOrder: order_by) {
+    query getFilteredTransaction($where: Transactions_bool_exp!, $limit: Int!, $offset: Int!, $amountOrder: order_by) {
   Transactions(
-    order_by: {transactionDate: $dateOrder}
+    order_by: {amount: $amountOrder}
     where: $where
     limit: $limit
     offset: $offset
