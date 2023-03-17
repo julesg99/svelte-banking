@@ -48,8 +48,9 @@
       console.log('response errors')
       response.errors.map((error: any) => console.log(error.message))
     } else {
-      console.log('response', response.data.update_Transactions_by_pk)
+      console.log('save Changes response', response.data.update_Transactions_by_pk)
     }
+    changeFilter()
   }
 
   async function changeFilter() {

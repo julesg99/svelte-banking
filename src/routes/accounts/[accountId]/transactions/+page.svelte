@@ -2,14 +2,12 @@
 	import { page } from "$app/stores";
 	import AccountAggregatesHeader from "../../../../components/AccountAggregatesHeader.svelte";
 	import TransactionTable from "../../../../components/transactions/TransactionTable.svelte";
-	import type { GetFilteredTransactionQuery, TransactionsFragment } from "../../../../graphql/graphql";
+	import type { GetFilteredTransactionQuery } from "../../../../graphql/graphql";
 	import { accountStore, breadCrumbStore } from "../../../../store";
 
   $: accounts = $accountStore
   let accountId: string = $page.params.accountId
   let accountName: string
-  let transactions: TransactionsFragment[] 
-  $: transactions = []
   let accountAggregates: GetFilteredTransactionQuery["Transactions_aggregate"]["aggregate"]
 
   $: {

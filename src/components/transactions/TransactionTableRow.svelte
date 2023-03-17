@@ -10,21 +10,24 @@
   let changedTransaction: TransactionsFragment = transaction
   let changedProperties: any = {}
   let isEdit: boolean = false
+  let isValid: boolean = true
 
   function handleSubmitUpdate() {
-    // changedProperties.forEach((prop) => ) 
     dispatch('save', {"id": transaction.id, "changedProperties": changedProperties})
     isEdit = false
   }
 
 </script>
 
-{#if !isEdit}
-  <tr class='text-center border-t border-2 border-gray-200'>
-    {#if (!$page.params.accountId)}
-      <td class="">{transaction.Account.name}</td>
-    {/if}
-    <td class="capitalize px-2">{transaction.status}</td>
+<tr class='text-center border-t border-2 border-gray-200'>
+
+  {#if (!$page.params.accountId)}
+    <td class="">{transaction.Account.name}</td>
+  {/if}
+
+  <td class="capitalize px-2">{transaction.status}</td>
+
+  {#if !isEdit}
     <td class="px-2">{transaction.amount}</td>
     <td><Time timestamp={transaction.transactionDate}/></td>
 
@@ -43,13 +46,8 @@
         class="h-6 px-2 m-1 bg-cyan-500 outline outline-1 outline-gray-300 rounded-lg hover:bg-cyan-400 hover:outline-cyan-100"
       >Edit</button>
     </td>
-  </tr>
-{:else}
-  <tr class="text-center border-t border-2 border-gray-200">
-    {#if (!$page.params.accountId)}
-      <td class="">{transaction.Account.name}</td>
-    {/if}
-    <td class="capitalize px-2">{transaction.status}</td>
+
+  {:else}
     <td class="">
       <input bind:value={changedTransaction.amount} on:change={() => changedProperties.status = changedTransaction.amount}
         class="w-24 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
@@ -76,6 +74,7 @@
             changedTransaction.postDate = transaction.postDate
           } else {
             changedProperties.postDate = changedTransaction.postDate
+            changedProperties.status = 'completed'
           }
         }}
         class="w-32 m-1 p-1 outline outline-1 outline-gray-300 bg-gray-50 rounded"
@@ -104,5 +103,5 @@
         class="h-6 px-2 m-1 bg-red-300 outline outline-1 outline-red-500 rounded-lg hover:bg-red-400 hover:outline-red-600"
       >Cancel</button>
     </td>
-  </tr>
-{/if}
+  {/if}
+</tr>
