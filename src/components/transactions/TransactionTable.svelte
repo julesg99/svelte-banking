@@ -54,6 +54,13 @@
     changeFilter()
   }
 
+  function clearFilters() {
+    categoryFilter = '' 
+    statusFilter = 'undefined'
+    dateFilter = new Date('999-01-01')
+    amountOrder = undefined
+  }
+
   async function changeFilter() {
     let response = await filterTransactions(filters, statusTypes, accountId, pageLimit, currentPage, amountOrder)
     accountAggregates = response.accountAggregates
@@ -68,7 +75,7 @@
 </script>
 
 <div class="mx-2 py-2 bg-gray-100 border border-1 border-gray-300 rounded">
-  <TransactionsFilters bind:filters {statusTypes}/>
+  <TransactionsFilters on:clear={clearFilters} bind:filters {statusTypes}/>
 
   <table class="w-[98%] outline outline-1 outline-gray-300 m-3 p-3 rounded shadow-lg">
     <tr class="w-[98%] outline outline-1 outline-gray-300 rounded p-2 text-center">
